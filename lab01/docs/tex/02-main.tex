@@ -30,10 +30,11 @@
     F(x, u, u', u'', ..., u^{(n)}) = 0.
 \end{equation}
 
-Задача данной лабораторной работы является задачей Коши, состоящей в поиске решения
-дифференциального уравнения, удовлетворяющего начальным условия (формула~(\ref{eq:02})).
+Задача данной лабораторной работы является задачей Коши, состоящей в поиске
+решения дифференциального уравнения, удовлетворяющего начальным условия
+(формула~(\ref{eq:03})).
 
-\begin{equation}\label{eq:02}
+\begin{equation}\label{eq:03}
     \begin{aligned}
         u'(x) &= f(x, u),\\
         u(\xi)~ &= \eta.
@@ -48,6 +49,80 @@
 \end{itemize}
 
 \section{Метод Пикара}
+
+Пусть поставлена задача Коши, выражющаяся формулой~(\ref{eq:04}):
+
+\begin{equation}\label{eq:04}
+    \begin{aligned}
+        u'(x) &= \varphi(x, u(x)),\\
+        x_0 \leq &~x \leq x_l\\
+        u(x_0) &= u_0.
+    \end{aligned}
+\end{equation}
+
+Проитегрировав выписанное уравнение получим формулу~(\ref{eq:05}).
+
+\begin{equation}\label{eq:05}
+    u(x) = u_0 + \int\limits_{x_0}^{x}\varphi(t, u(t))dt.
+\end{equation}
+
+Последовательные приближения метода пикара реализуются по схеме,
+описывающейся формулой~(\ref{eq:06}).
+
+\begin{equation}\label{eq:06}
+    u_{i}(x) = u_0 + \int\limits_{x_0}^{x}\varphi(t, u_{i - 1}(t))dt,
+\end{equation}
+
+где $i = 1, 2, ...$ --- номер итерации,
+
+причем $u_0(t) = u_0$.
+
+Для задачи данной лабораторной работы с помощью схемы, описывающейся
+формулой~(\ref{eq:06}), получим следующие приближения
+(формулы~(\ref{eq:07}-\ref{eq:10})):
+
+\begin{equation}\label{eq:07}
+    u_1(x) = 0 + \int\limits_0^x(t^2 + u_0^2(t))dt = \int\limits_0^x t^2 dt =
+    \frac{t^3}{3}\bigg|_0^x = \frac{x^3}{3},
+\end{equation}
+
+\begin{equation}\label{eq:08}
+    \begin{split}
+    u_2(x) = 0 + \int\limits_0^x(t^2 + u_1^2(t))dt =
+    \int\limits_0^x\bigg(t^2 + \bigg(\frac{t^3}{3}\bigg)^2\bigg) dt = \\
+    = \int\limits_0^x\bigg(t^2 + \frac{t^6}{9}\bigg) dt =
+    \bigg(\frac{t^3}{3} + \frac{t^7}{63}\bigg)\bigg|_0^x =
+    \frac{x^3}{3} + \frac{x^7}{63}
+    \end{split}
+\end{equation}
+
+\begin{equation}\label{eq:09}
+    \begin{split}
+        u_3(x) &= 0 + \int\limits_0^x(t^2 + u_2^2(t))dt = \\ &=
+        \int\limits_0^x\bigg(t^2 + \bigg(\frac{t^3}{3} +
+        \frac{t^7}{63}\bigg)^2\bigg) dt = \int\limits_0^x\bigg(t^2 +
+        \frac{t^6}{9} + \frac{2t^{10}}{63 \cdot 3} + \frac{t^{14}}{63^2}\bigg) dt =
+        \\ &= \bigg(\frac{t^3}{3} + \frac{t^7}{63} + \frac{2t^{11}}{2079} +
+        \frac{t^{15}}{59535}\bigg)\bigg|_0^x = \frac{x^3}{3} + \frac{x^7}{63} +
+        \frac{2x^{11}}{2079} + \frac{x^{15}}{59535}
+    \end{split}
+\end{equation}
+
+\begin{equation}\label{eq:10}
+    \begin{split}
+        u_4(x) &= 0 + \int\limits_0^x(t^2 + u_3^2(t))dt = \\ &=
+        \int\limits_0^x\bigg(t^2 + \bigg(\frac{x^3}{3} + \frac{x^7}{63} +
+        \frac{2x^{11}}{2079} + \frac{x^{15}}{59535}\bigg)^2\bigg) dt = \\ &=
+        \bigg(\frac{t^3}{3} + \frac{t^7}{63} + \frac{2t^{11}}{2079} +
+        \frac{13t^{15}}{218295} +  \frac{82t^{19}}{37328445} +
+        \frac{662t^{23}}{10438212015} + \\ & + \frac{4t^{27}}{3341878155} +
+        \frac{t^{31}}{109876901975}\bigg)\bigg|_0^x =
+        \frac{x^3}{3} + \frac{x^7}{63} + \frac{2x^{11}}{2079} +
+        \frac{13x^{15}}{218295} + \\ &+ \frac{82x^{19}}{37328445} +
+        \frac{662x^{23}}{10438212015} + \frac{4x^{27}}{3341878155} +
+        \frac{x^{31}}{109876902975}
+    \end{split}
+\end{equation}
 
 \spchapter{Код программы}
 
