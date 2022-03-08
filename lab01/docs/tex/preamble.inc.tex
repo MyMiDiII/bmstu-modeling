@@ -69,3 +69,12 @@
 \usepackage{listings}
 \usepackage[newfloat]{minted}
 \usepackage{verbatim}
+
+% headers
+\newcommand{\spchapter}[1] {
+    \let\oldclearpage\clearpage
+    \let\clearpage\relax
+    \chapter{#1}
+    \let\clearpage\oldclearpage
+}
+
