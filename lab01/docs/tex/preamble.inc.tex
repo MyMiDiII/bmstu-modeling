@@ -69,7 +69,47 @@
 \usepackage{listings}
 \usepackage[newfloat]{minted}
 \usepackage{verbatim}
+\usepackage[framemethod=tikz]{mdframed}
 
+\mdfdefinestyle{mymdstyle}{
+    innerleftmargin=0mm,
+    innerrightmargin=0mm,
+    innertopmargin=-4pt,
+    innerbottommargin=-9pt,
+    splittopskip=\baselineskip,
+    hidealllines=true,
+    middleextra={
+      \node[anchor=west] at (O|-P)
+        {\lstlistingname~\thelstlisting~(продолжение)};
+        },
+    secondextra={
+      \node[anchor=west] at (O|-P)
+        {\lstlistingname~\thelstlisting~(продолжение)};},
+}
+
+\surroundwithmdframed[style=mymdstyle]{lstlisting}
+\newmdenv[style=mymdstyle]{mdlisting}
+
+\newcommand{\mylisting}[4] {
+    \noindent
+    \begin{minipage}{\linewidth}
+        \captionsetup{justification=raggedright,singlelinecheck=off}
+        \begin{lstinputlisting}[
+            caption={#1},
+            label={lst:#2},
+            linerange={#3}
+        ]{../../src/#4}
+        \end{lstinputlisting}
+    \end{minipage}
+}
+
+\newcommand{\mybreaklisting}[4]{
+    \begin{mdlisting}
+        \captionsetup{justification=raggedright,singlelinecheck=off}
+        \lstinputlisting[label=lst:#4, caption=#3,
+        linerange=#2]{../../src/#1}
+    \end{mdlisting}
+}
 % headers
 \newcommand{\spchapter}[1] {
     \let\oldclearpage\clearpage
