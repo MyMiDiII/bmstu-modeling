@@ -1,6 +1,11 @@
 from prettytable import PrettyTable
 import numpy as np
 
+XMAX = 2
+STEP = 1e-4
+TABLESTEP = 5e-2
+NUM = int(TABLESTEP / STEP)
+
 
 def picard1st(x):
     return x ** 3 / 3
@@ -30,16 +35,48 @@ def picard(xMax, step, picardFunc):
     return res
 
 
+def function(x, u):
+    return x ** 2 + u ** 2
+
+
+def euler(xMax, step):
+    res = np.array([])
+    u = 0
+
+    for x in np.arange(0, xMax, step):
+        res = np.append(res, u)
+        u += step * function(x, u)
+
+    return res
+
+
+def rungeKutta2(xMax, step, alpha):
+    res = np.array([])
+    u = 0
+    k1 = 1 - alpha
+    k2 = step / 2 / alpha
+
+    for x in np.arange(0, xMax, step):
+        res = np.append(res, u)
+        curFunc = function(x, u)
+        u += step * (k1 * curFunc + alpha *
+                function(x + k2, u + k2 * curFunc))
+
+    return res
+
+
 def main():
     table = PrettyTable()
 
-    table.add_column("x", np.arange(0, 2.01, 0.05))
-    table.add_column("Picard 1st", picard(2.01, 1e-4, picard1st)[::500])
-    table.add_column("Picard 2nd", picard(2.01, 1e-4, picard2nd)[::500])
-    table.add_column("Picard 3d",  picard(2.01, 1e-4, picard3d)[::500])
-    table.add_column("Picard 4th", picard(2.01, 1e-4, picard4th)[::500])
+    table.add_column("x", np.arange(0, XMAX + 0.01, TABLESTEP))
+    table.add_column("Picard 1st", picard(XMAX + 0.01, STEP, picard1st)[::NUM])
+    table.add_column("Picard 2nd", picard(XMAX + 0.01, STEP, picard2nd)[::NUM])
+    table.add_column("Picard 3d",  picard(XMAX + 0.01, STEP, picard3d)[::NUM])
+    table.add_column("Picard 4th", picard(XMAX + 0.01, STEP, picard4th)[::NUM])
+    table.add_column("Euler", euler(XMAX + 0.01, STEP)[::NUM])
+    table.add_column("Runge", rungeKutta2(XMAX + 0.01, STEP, 0.5)[::NUM])
 
-    table.float_format = '.6'
+    table.float_format = '9.5'
     print(table)
 
 
