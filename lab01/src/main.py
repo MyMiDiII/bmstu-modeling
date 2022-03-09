@@ -2,7 +2,7 @@ from prettytable import PrettyTable
 import numpy as np
 
 XMAX = 2
-STEP = 1e-4
+STEP = 1e-5
 TABLESTEP = 5e-2
 NUM = int(TABLESTEP / STEP)
 
@@ -27,10 +27,11 @@ def picard4th(x):
             + 4 * x ** 27 / 3341878155 + x ** 31 / 109876902975)
 
 def picard(xMax, step, picardFunc):
-    res = np.array([])
+    xRange = np.arange(0, xMax, step)
+    res = np.zeros(len(xRange))
 
-    for x in np.arange(0, xMax, step):
-        res = np.append(res, picardFunc(x))
+    for i, x in enumerate(xRange):
+        res[i] = picardFunc(x)
 
     return res
 
@@ -40,24 +41,26 @@ def function(x, u):
 
 
 def euler(xMax, step):
-    res = np.array([])
+    xRange = np.arange(0, xMax, step)
+    res = np.zeros(len(xRange))
     u = 0
 
-    for x in np.arange(0, xMax, step):
-        res = np.append(res, u)
+    for i, x in enumerate(xRange):
+        res[i] = u
         u += step * function(x, u)
 
     return res
 
 
 def rungeKutta2(xMax, step, alpha):
-    res = np.array([])
+    xRange = np.arange(0, xMax, step)
+    res = np.zeros(len(xRange))
     u = 0
     k1 = 1 - alpha
     k2 = step / 2 / alpha
 
-    for x in np.arange(0, xMax, step):
-        res = np.append(res, u)
+    for i, x in enumerate(xRange):
+        res[i] = u
         curFunc = function(x, u)
         u += step * (k1 * curFunc + alpha *
                 function(x + k2, u + k2 * curFunc))
