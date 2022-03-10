@@ -38,18 +38,18 @@ def picard(xMax, step, picardFunc):
     return res
 
 
-def function(x, u):
-    return x ** 2 + u ** 2
+def function(x, y):
+    return x ** 2 + y ** 2
 
 
 def euler(xMax, step):
     xRange = np.arange(0, xMax + step / 2, step)
     res = np.zeros(len(xRange))
-    u = 0
+    y = 0
 
     for i, x in enumerate(xRange):
-        res[i] = u
-        u += step * function(x, u)
+        res[i] = y
+        y += step * function(x, y)
 
     return res
 
@@ -57,15 +57,15 @@ def euler(xMax, step):
 def rungeKutta2(xMax, step, alpha):
     xRange = np.arange(0, xMax + step / 2, step)
     res = np.zeros(len(xRange))
-    u = 0
+    y = 0
     k1 = 1 - alpha
     k2 = step / 2 / alpha
 
     for i, x in enumerate(xRange):
-        res[i] = u
-        curFunc = function(x, u)
-        u += step * (k1 * curFunc + alpha *
-                function(x + k2, u + k2 * curFunc))
+        res[i] = y
+        curFunc = function(x, y)
+        y += step * (k1 * curFunc + alpha *
+                function(x + k2, y + k2 * curFunc))
 
     return res
 

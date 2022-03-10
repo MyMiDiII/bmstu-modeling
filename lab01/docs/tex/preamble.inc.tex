@@ -23,11 +23,12 @@
 \usepackage{graphicx}
 \usepackage{wrapfig}
 
-\newcommand{\img}[3] {
+\newcommand{\img}[4] {
 	\begin{figure}[ht!]
 		\center{
             \includegraphics[height=#1]{../data/img/#2}
-            \label{img:#3}
+            \caption{#3}
+            \label{img:#4}
         }
 	\end{figure}
 }
