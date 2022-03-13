@@ -1,0 +1,378 @@
+\textbf{Тема:} Программная реализация приближенного аналитического метода и
+численных алгоритмов первого и второго порядков точности при решении задачи Коши
+для ОДУ.
+
+\textbf{Цель работы.} Программная реализация приближенного аналитического метода
+и численных алгоритмов первого и второго порядков точности при решении задачи
+Коши для ОДУ.
+
+
+\spchapter{Исходные данные}
+
+1. ОДУ, не имеющее аналитического решения (формула~(\ref{eq:01})).
+
+\begin{equation}\label{eq:01}
+    \begin{aligned}
+        u'(x) &= x^2 + u^2,\\
+        u(0)~ &= 0.
+    \end{aligned}
+\end{equation}
+
+\spchapter{Описание алгоритмов}
+
+Обыкновенные дифференциальные уравнения~(ОДУ)~--- дифференциальные
+уравнения~(ДУ) с одной независимой переменной.
+
+ДУ $n$-ого порядка описывается формулой~(\ref{eq:02}). Заменой
+переменной ОДУ $n$-ого порядка сводится к системе ДУ первого порядка.
+
+\begin{equation}\label{eq:02}
+    F(x, u, u', u'', ..., u^{(n)}) = 0.
+\end{equation}
+
+Задача данной лабораторной работы является задачей Коши, состоящей в поиске
+решения дифференциального уравнения, удовлетворяющего начальным условия
+(формула~(\ref{eq:03})).
+
+\begin{equation}\label{eq:03}
+    \begin{aligned}
+        u'(x) &= f(x, u),\\
+        u(\xi)~ &= \eta.
+    \end{aligned}
+\end{equation}
+
+В данной лабораторной работе рассматриваются следующие методы решения:
+\begin{itemize}
+    \item метод Пикара;
+    \item явный метод первого порядка точности (Эйлера);
+    \item явный метод второго порядка точность (Рунге-Кутта).
+\end{itemize}
+
+\section{Метод Пикара}
+
+Пусть поставлена задача Коши, выражющаяся формулой~(\ref{eq:04}):
+
+\begin{equation}\label{eq:04}
+    \begin{aligned}
+        u'(x) &= \varphi(x, u(x)),\\
+        x_0 \leq &~x \leq x_l\\
+        u(x_0) &= u_0.
+    \end{aligned}
+\end{equation}
+
+Проитегрировав выписанное уравнение получим формулу~(\ref{eq:05}).
+
+\begin{equation}\label{eq:05}
+    u(x) = u_0 + \int\limits_{x_0}^{x}\varphi(t, u(t))dt.
+\end{equation}
+
+Последовательные приближения метода пикара реализуются по схеме,
+описывающейся формулой~(\ref{eq:06}).
+
+\begin{equation}\label{eq:06}
+    y_{i}(x) = y_0 + \int\limits_{x_0}^{x}\varphi(t, y_{i - 1}(t))dt,
+\end{equation}
+
+где $i = 1, 2, ...$ --- номер итерации,
+
+причем $u_0(t) = y_0$.
+
+Для задачи данной лабораторной работы с помощью схемы, описывающейся
+формулой~(\ref{eq:06}), получим следующие приближения
+(формулы~(\ref{eq:07}-\ref{eq:10})):
+
+\begin{equation}\label{eq:07}
+    y_1(x) = 0 + \int\limits_0^x(t^2 + y_0^2(t))dt = \int\limits_0^x t^2 dt =
+    \frac{t^3}{3}\bigg|_0^x = \frac{x^3}{3},
+\end{equation}
+
+\begin{equation}\label{eq:08}
+    \begin{split}
+    y_2(x) = 0 + \int\limits_0^x(t^2 + y_1^2(t))dt =
+    \int\limits_0^x\bigg(t^2 + \bigg(\frac{t^3}{3}\bigg)^2\bigg) dt = \\
+    = \int\limits_0^x\bigg(t^2 + \frac{t^6}{9}\bigg) dt =
+    \bigg(\frac{t^3}{3} + \frac{t^7}{63}\bigg)\bigg|_0^x =
+    \frac{x^3}{3} + \frac{x^7}{63}
+    \end{split}
+\end{equation}
+
+\begin{equation}\label{eq:09}
+    \begin{split}
+        y_3(x) &= 0 + \int\limits_0^x(t^2 + y_2^2(t))dt = \\ &=
+        \int\limits_0^x\bigg(t^2 + \bigg(\frac{t^3}{3} +
+        \frac{t^7}{63}\bigg)^2\bigg) dt = \int\limits_0^x\bigg(t^2 +
+        \frac{t^6}{9} + \frac{2t^{10}}{63 \cdot 3} + \frac{t^{14}}{63^2}\bigg) dt =
+        \\ &= \bigg(\frac{t^3}{3} + \frac{t^7}{63} + \frac{2t^{11}}{2079} +
+        \frac{t^{15}}{59535}\bigg)\bigg|_0^x = \frac{x^3}{3} + \frac{x^7}{63} +
+        \frac{2x^{11}}{2079} + \frac{x^{15}}{59535}
+    \end{split}
+\end{equation}
+
+\begin{equation}\label{eq:10}
+    \begin{split}
+        y_4(x) &= 0 + \int\limits_0^x(t^2 + y_3^2(t))dt = \\ &=
+        \int\limits_0^x\bigg(t^2 + \bigg(\frac{x^3}{3} + \frac{x^7}{63} +
+        \frac{2x^{11}}{2079} + \frac{x^{15}}{59535}\bigg)^2\bigg) dt = \\ &=
+        \bigg(\frac{t^3}{3} + \frac{t^7}{63} + \frac{2t^{11}}{2079} +
+        \frac{13t^{15}}{218295} +  \frac{82t^{19}}{37328445} +
+        \frac{662t^{23}}{10438212015} + \\ & + \frac{4t^{27}}{3341878155} +
+        \frac{t^{31}}{109876901975}\bigg)\bigg|_0^x =
+        \frac{x^3}{3} + \frac{x^7}{63} + \frac{2x^{11}}{2079} +
+        \frac{13x^{15}}{218295} + \\ &+ \frac{82x^{19}}{37328445} +
+        \frac{662x^{23}}{10438212015} + \frac{4x^{27}}{3341878155} +
+        \frac{x^{31}}{109876902975}
+    \end{split}
+\end{equation}
+
+\section{Метод Эйлера}
+
+По методу Эйлера первого порядка точности значение функции в точке
+вычисляется по формуле~(\ref{eq:11}).
+
+\begin{equation}\label{eq:11}
+    y_{n+1} = y_n + h \cdot f(x_n, y_n).
+\end{equation}
+
+\section{Метод Рунге-Кутта}
+
+По методу Рунге-Кутта второго порядка точности значение функции в точке
+вычисляется по формуле~(\ref{eq:12}).
+
+\begin{equation}\label{eq:12}
+    y_{n+1} = y_n + h((1 - \alpha) F_1 + \alpha F_2),
+\end{equation}
+
+где $F_1 = f(x_n, y_n)$,
+
+~~~~~$F_2 = f(x_n + \frac{h}{2\alpha}, y_n + \frac{h}{2\alpha}F_1)$,
+
+~~~~~$\alpha = \frac{1}{2}$ или $\alpha = 1$
+
+\spchapter{Код программы}
+
+На листинге \ref{lst:picard} представлена реализация метода Пикара.
+На листиге \ref{lst:func} представлено вычисление правой части уравнения. На
+листинге \ref{lst:euler} представлена реализация метода Эйлера.
+На листинге \ref{lst:rungekutta} представлена реализация метода Рунге-Кутта.
+
+\mybreaklisting{main.py}{11-38}{Реализация метода Пикара}{picard}
+
+\mybreaklisting{main.py}{41-42}{Вычисление правой части уравнения}{func}
+
+\mybreaklisting{main.py}{45-54}{Реализация метода Эйлера}{euler}
+
+\mybreaklisting{main.py}{56-70}{Реализация метода Рунге-Кутта}{rungekutta}
+
+\spchapter{Результат работы}
+
+На рисунке \ref{img:table} представлена таблица результов вычисления
+значений функции, являющейся решением ОДУ. На рисунках
+\ref{img:picard}-\ref{img:rungekutta}
+представлены графики функции-решения, вычисленной различными методами.
+
+\img{14cm}{table}{Полученная таблица значений}{table}
+\img{8.5cm}{picard}{График функции, вычисленной методом Пикара}{picard}
+\img{5cm}{euler}{График функции, вычисленной методом Эйлера}{euler}
+\img{5cm}{rungekutta}{График функции, вычисленной методом
+Рунге-Кутта}{rungekutta}
+
+\spchapter{Контрольные вопросы}
+
+\begin{enumerate}[label=\textbf{\arabic*})]
+    \item \textbf{Укажите интервалы значений аргумента, в которых можно считать решением
+        заданного уравнения каждое из первых 4-х приближений Пикара, т.~е. для
+        КАЖДОГО приближения указать свои границы применимости. Точность
+        результата оценивать до второй цифры после запятой. Объяснить свой
+        ответ.}
+
+        Интервалы значений аргумента, в которых можно считать решением
+        заданного уравнения каждого из приближений Пикара, можно найти из
+        полученной таблицы решений (рисунок~\ref{img:table}), а
+        именно, $i$-ое приближение Пикара ($i = \overline{1, 4}$) можно считать
+        решением до тех пор, пока его значение совпадает с $(i+1)$-ым
+        приближением Пикара с некоторой точностью (по условию до второй
+        цифры после запятой). Таким образом:
+
+        \begin{itemize}
+            \item 1-ое приближение Пикара можно считать решением на
+                промежутке $[0, 0.85]$;
+            \item 2-ое приближение --- на промежутке $[0, 1]$;
+            \item 3-е приближение --- на промежутке $[0, 1.30]$;
+            \item для определения промежутка для 4-ого приближения Пикара
+                необходимо найти 5-ое приближение, чего в данной работе не
+                проводилось.
+        \end{itemize}
+
+    \item \textbf{Пояснить, каким образом можно доказать правильность полученного
+        результата при фиксированном значении аргумента в численных методах.}
+
+        В численных методах для того, чтобы доказать правильность полученного
+        результата при фиксированном значении аргумента, необходимо итерационно
+        уменьшать шаг до нуля, вычисляя для каждого шага значение фукнции, до
+        тех пор пока, уменьшение шага не перестанет приводить к изменению
+        решения с некоторой точностью.
+
+    \item \textbf{Каково значение решения уравнения в точке $x=2$, т.~е. привести значение
+        $u(2)$.}
+
+        $\approx 318$
+
+    \item \textbf{Дайте оценку точки разрыва решения уравнения.}
+
+        ---
+
+
+    \item \textbf{Покажите, что метод Пикара сходится к точному аналитическому решению
+        уравнения:}
+
+        \begin{equation*}
+            \begin{aligned}
+                u'(x) &= x^2 + u,\\
+                u(0)~ &= 0.
+            \end{aligned}
+        \end{equation*}
+
+        Найдем аналитическое решение методом Бернулли. Пусть:
+
+        \begin{equation*}
+            \begin{aligned}
+                u &= ab,\\
+                a &= a(x),\\
+                b &= b(x).
+            \end{aligned}
+        \end{equation*}
+
+        Тогда:
+
+        \begin{equation*}
+            \begin{aligned}
+                u' &= a'b + b'a.\\
+            \end{aligned}
+        \end{equation*}
+
+        Откуда:
+
+        \begin{equation*}
+            \begin{aligned}
+                a'b &+ b'a = x^2 + ab,\\
+                b(a' &- a) + b'a = x^2.
+            \end{aligned}
+        \end{equation*}
+
+        Т.~к. $a$ можно выбрать произвольно:
+
+        \begin{equation*}
+            \begin{cases}
+                a' - a &=0,\\
+                b'a &= x^2.
+            \end{cases}
+        \end{equation*}
+
+        Найдем $a$:
+
+        \begin{equation*}
+            \begin{aligned}
+                a' - a &= 0,\\
+                \frac{da}{dx} &= a,\\
+                \frac{da}{a} &= dx,\\
+                \int\frac{da}{a} &= \int dx,\\
+                \log a &= x,\\
+                e^{\log a} &= e^x,\\
+                a &= e^x.
+            \end{aligned}
+        \end{equation*}
+
+        Подставим $a$ во второе уравнение системы и найдем $b$:
+
+        \begin{equation*}
+            \begin{aligned}
+                b'e^x &= x^2,\\
+                \frac{db}{dx}e^x &= x^2,\\
+                db = x^2 & e^{-x} dx,\\
+                \int db = \int x^2 & e^{-x} dx,\\
+                b = \int x^2 & e^{-x} dx.
+            \end{aligned}
+        \end{equation*}
+
+        Дважды интегрируем по частям:
+
+        \begin{equation*}
+            \begin{split}
+                b = -x^2 e^{-x} + 2\int xe^{-x} dx = -x^2e^{-x} -2xe^{-x} +
+                2\int e^{-x} dx = \\ = -x^2 e^{-x} - 2xe^{-x} - 2e^{-x} + C =
+                -e^{-x}(x^2 + 2x + 2) + C.
+            \end{split}
+        \end{equation*}
+
+        Тогда:
+        \begin{equation*}
+            \begin{split}
+                u = ab = e^x(-e^{-x}(x^2 + 2x + 2) + C) = -(x^2 + 2x + 2) + Ce^x.
+            \end{split}
+        \end{equation*}
+
+        По начальному условию:
+        \begin{equation*}
+            \begin{aligned}
+                0 &= -2 + Ce^0,\\
+                C &= 2.
+            \end{aligned}
+        \end{equation*}
+
+        Таким образом, аналитическое решение:
+        \begin{equation}\label{eq:13}
+            u = 2e^x - x^2 - 2x - 2.
+        \end{equation}
+
+        Приближения Пикара:
+        \begin{equation*}
+            y_1(x) = 0 + \int\limits_0^x(t^2 + y_0(t))dt = \int\limits_0^x t^2
+            dt = \frac{x^3}{3},
+        \end{equation*}
+
+        \begin{equation*}
+            y_2(x) = 0 + \int\limits_0^x(t^2 + y_1(t))dt = \int\limits_0^x
+            \bigg(t^2 + \frac{t^3}{3}\bigg)dt = \frac{x^3}{3} + \frac{x^4}{12},
+        \end{equation*}
+
+        \begin{equation*}
+            y_3(x) = 0 + \int\limits_0^x(t^2 + y_2(t))dt = \int\limits_0^x
+            \bigg(t^2 + \frac{t^3}{3} + \frac{x^4}{12}\bigg)dt = \frac{x^3}{3} +
+            \frac{x^4}{12} + \frac{x^5}{60},
+        \end{equation*}
+        
+        \begin{equation*}
+            ...
+        \end{equation*}
+
+        Для $n$-ого приближения:
+        \begin{equation*}
+            y_n(x) = 0 + \int\limits_0^x(t^2 + y_{n-1}(t))dt =
+            2\bigg(\frac{x^3}{3!}
+            + \frac{x^4}{4!} + \frac{x^5}{5!} + ... + \frac{x^n}{n!}\bigg).
+        \end{equation*}
+
+        Устремим $n$ к бесконечности:
+        \begin{equation*}
+            \begin{split}
+                y(x) = \lim_{n \to \infty} y_n(x) = \lim_{n \to \infty}
+                2\bigg(\frac{x^3}{3!} + \frac{x^4}{4!} + \frac{x^5}{5!} + ... +
+                \frac{x^n}{n!}\bigg) = \\ = 2 \sum\limits_{n=3}^{\infty}
+                \frac{x^n}{n!} = 2\bigg( \sum\limits_{n=0}^{\infty} \frac{x^n}{n!} -
+                1 - x - \frac{x^2}{2}\bigg).
+            \end{split}
+        \end{equation*}
+
+        При этом по формуле Маклорена:
+        \begin{equation*}
+            \sum\limits_{n=0}^{\infty} \frac{x^n}{n!} = e^x
+        \end{equation*}
+
+        С учетом этого:
+        \begin{equation}\label{eq:14}
+            y(x) = 2e^x - x^2 - 2x - 2.
+        \end{equation}
+
+        Таким образом, метод Пикара (формула~(\ref{eq:14})) сходится к
+        аналитическому решинию (формула~(\ref{eq:13})).
+\end{enumerate}
