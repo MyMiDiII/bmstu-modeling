@@ -193,6 +193,7 @@ class Graphics:
             plt.title(graph["title"])
             plt.grid()
 
+        plt.subplots_adjust(wspace=0.3, hspace=0.3)
         plt.show()
 
 
