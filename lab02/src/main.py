@@ -188,7 +188,6 @@ class Graphics:
 
     def show(self):
         for i, graph in enumerate(self.graphics):
-            print(i)
             plt.subplot(2, self.num // 2 + self.num % 2, i + 1)
             plt.plot(graph["x"], graph["y"])
             plt.title(graph["title"])
@@ -222,6 +221,6 @@ if __name__ == '__main__':
     graphics.addGraphic(z, up, "uₚ(z)")
     graphics.addGraphic(z, t, "T(z)")
     graphics.addGraphic(z, k, "k(z)")
-    graphics.addGraphic(z, psi, "ψ(z)")
+    graphics.addGraphic(z, psi, "ψ(z), ξ = %.3f" % xi)
     graphics.show()
 
