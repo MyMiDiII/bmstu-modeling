@@ -6,6 +6,7 @@ from prettytable import PrettyTable
 EPS = 1e-4
 MAX_ITER_NUMS = 100
 
+
 class RadiativeTransfer:
 
     def __init__(self, c=3e10, R=0.35, Tw=2000,
@@ -40,6 +41,24 @@ class RadiativeTransfer:
         return -F / z + commonPart if abs(z) > EPS else commonPart / 2
 
 
+class RadiativeTransferSolver:
+    def __init__(self, zStep=1e-2, zInit=0, zMax=1,
+                       xiStep=1e-2, xiInit=1e-2, xiMax=1,
+                       f0=0, system=RadiativeTransfer()):
+        self.zStep = zStep
+        self.zInit = zInit
+        self.zMax = zMax
+
+        self.xiStep = xiStep
+        self.xiInit = xiInit
+        self.xiMax = xiMax
+
+        self.system = system
+
+        self.f0 = f0
+        self.u0 = self.getU0()
+
+
     def RungeKutta4(self, zStep, zInit, zMax, uInit, fInit):
         halfStep = zStep / 2
 
@@ -54,19 +73,19 @@ class RadiativeTransfer:
             uRes[i] = uCur
             fRes[i] = fCur
 
-            k1 = zStep * self.derU(z, fCur)
-            l1 = zStep * self.derF(z, fCur, uCur)
+            k1 = zStep * self.system.derU(z, fCur)
+            l1 = zStep * self.system.derF(z, fCur, uCur)
 
             halfL1 = l1 / 2
-            k2 = zStep * self.derU(z + halfStep, fCur + halfL1)
-            l2 = zStep * self.derF(z + halfStep, fCur + halfL1, uCur + k1 / 2)
+            k2 = zStep * self.system.derU(z + halfStep, fCur + halfL1)
+            l2 = zStep * self.system.derF(z + halfStep, fCur + halfL1, uCur + k1 / 2)
 
             halfL2 = l2 / 2
-            k3 = zStep * self.derU(z + halfStep, fCur + halfL2)
-            l3 = zStep * self.derF(z + halfStep, fCur + halfL2, uCur + k2 / 2)
+            k3 = zStep * self.system.derU(z + halfStep, fCur + halfL2)
+            l3 = zStep * self.system.derF(z + halfStep, fCur + halfL2, uCur + k2 / 2)
 
-            k4 = zStep * self.derU(z + zStep, fCur + l3)
-            l4 = zStep * self.derF(z + zStep, fCur + l3, uCur + k3)
+            k4 = zStep * self.system.derU(z + zStep, fCur + l3)
+            l4 = zStep * self.system.derF(z + zStep, fCur + l3, uCur + k3)
 
             uCur += (k1 + 2 * k2 + 2 * k3 + k4) / 6
             fCur += (l1 + 2 * l2 + 2 * l3 + l4) / 6
@@ -75,25 +94,32 @@ class RadiativeTransfer:
 
 
     def psi(self, U, F):
-        return F - self.m * self.c * U / 2
+        return F - self.system.m * self.system.c * U / 2
 
 
     def psiEnd(self, xi):
-        _, u, f = self.RungeKutta4(1e-2, 0, 1, xi * self.Up(0), 0)
+        _, u, f = self.RungeKutta4(
+                            self.zStep,
+                            self.zInit,
+                            self.zMax,
+                            xi * self.system.Up(0),
+                            0)
         return self.psi(u[-1], f[-1])
 
 
     def getXiInterval(self):
-        xiCur = 1e-2
-        step = 1e-2
-        xiMax = 1
+        xiFrom, psiFrom = self.xiInit, self.psiEnd(self.xiInit)
+        xiTo, psiTo = (
+                self.xiInit + self.xiStep,
+                self.psiEnd(self.xiInit + self.xiStep)
+        )
 
-        xiFrom, psiFrom = xiCur, self.psiEnd(xiCur)
-        xiTo, psiTo = xiCur + step, self.psiEnd(xiCur + step)
-
-        while xiTo < xiMax - step / 2 and psiFrom * psiTo > 0:
+        while xiTo < self.xiMax - self.xiStep / 2 and psiFrom * psiTo > 0:
             xiFrom, psiFrom = xiTo, psiTo
-            xiTo, psiTo = xiFrom + step, self.psiEnd(xiFrom + step)
+            xiTo, psiTo = (
+                    xiFrom + self.xiStep,
+                    self.psiEnd(xiFrom + self.xiStep)
+            )
 
         return xiFrom, xiTo
 
@@ -117,17 +143,16 @@ class RadiativeTransfer:
 
 
     def getU0(self):
-        return self.getXi() * self.Up(0)
+        return self.getXi() * self.system.Up(0)
 
 
     def solve(self):
-        step = 1e-2
-        zInit = 0
-        zMax = 1
-        f0 = 0
-        u0 = self.getU0()
-
-        return system.RungeKutta4(step, zInit, zMax, u0, f0)
+        return self.RungeKutta4(
+                        self.zStep,
+                        self.zInit,
+                        self.zMax,
+                        self.u0,
+                        self.f0)
 
 
 class Table(PrettyTable):
@@ -138,8 +163,7 @@ class Table(PrettyTable):
 
 
 if __name__ == '__main__':
-    system = RadiativeTransfer()
-    z, u, f = system.solve()
+    z, u, f = RadiativeTransferSolver().solve()
 
     table = Table()
     columns = {
