@@ -160,8 +160,8 @@ class RadiativeTransferSolver:
                         self.zMax,
                         self.u0,
                         self.f0),
-               self.getXi(),
-               self.getPhiVals())
+               self.getXi())
+               # self.getPhiVals())
 
 
 class Table(PrettyTable):
@@ -199,10 +199,12 @@ class Graphics:
 
 if __name__ == '__main__':
     system = RadiativeTransfer()
-    z, u, f, xi, psi = RadiativeTransferSolver(system=system).solve()
+    solver = RadiativeTransferSolver(system=system)
+    z, u, f, xi = solver.solve()
     up = np.array([system.Up(x) for x in z])
     t = np.array([system.T(x) for x in z])
     k = np.array([system.k(x) for x in z])
+    psi = np.vectorize(solver.psi)(u, f)
 
     print("ξ =", xi)
     table = Table()
@@ -220,6 +222,6 @@ if __name__ == '__main__':
     graphics.addGraphic(z, up, "uₚ(z)")
     graphics.addGraphic(z, t, "T(z)")
     graphics.addGraphic(z, k, "k(z)")
-    graphics.addGraphic(z[1:], psi, "ψ(ξ)") # зависимость от ξ, но у z такие же значения
+    graphics.addGraphic(z, psi, "ψ(z)")
     graphics.show()
 
