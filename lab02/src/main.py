@@ -2,6 +2,7 @@ from math import exp
 
 import numpy as np
 from prettytable import PrettyTable
+import matplotlib.pyplot as plt
 
 EPS = 1e-4
 MAX_ITER_NUMS = 100
@@ -146,13 +147,21 @@ class RadiativeTransferSolver:
         return self.getXi() * self.system.Up(0)
 
 
+    def getPhiVals(self):
+        return np.vectorize(self.psiEnd)(
+                np.arange(self.xiInit,
+                          self.xiMax + self.xiStep / 2,
+                          self.xiStep))
+
     def solve(self):
-        return self.RungeKutta4(
+        return (*self.RungeKutta4(
                         self.zStep,
                         self.zInit,
                         self.zMax,
                         self.u0,
-                        self.f0)
+                        self.f0),
+               self.getXi(),
+               self.getPhiVals())
 
 
 class Table(PrettyTable):
@@ -162,9 +171,40 @@ class Table(PrettyTable):
             self.custom_format[key] = value[1]
 
 
-if __name__ == '__main__':
-    z, u, f = RadiativeTransferSolver().solve()
+class Graphics:
+    def __init__(self, graphics=[]):
+        self.graphics = graphics
+        self.num = len(graphics)
 
+
+    def addGraphic(self, xVals, yVals, title):
+        self.graphics.append({
+                        "x" : xVals,
+                        "y" : yVals,
+                        "title" : title
+                        })
+        self.num += 1
+
+
+    def show(self):
+        for i, graph in enumerate(self.graphics):
+            print(i)
+            plt.subplot(2, self.num // 2 + self.num % 2, i + 1)
+            plt.plot(graph["x"], graph["y"])
+            plt.title(graph["title"])
+            plt.grid()
+
+        plt.show()
+
+
+if __name__ == '__main__':
+    system = RadiativeTransfer()
+    z, u, f, xi, psi = RadiativeTransferSolver(system=system).solve()
+    up = np.array([system.Up(x) for x in z])
+    t = np.array([system.T(x) for x in z])
+    k = np.array([system.k(x) for x in z])
+
+    print("ξ =", xi)
     table = Table()
     columns = {
             "z" : (z, lambda f, v: f"{v:.2f}"),
@@ -173,4 +213,13 @@ if __name__ == '__main__':
     }
     table.add_columns(columns)
     print(table)
+
+    graphics = Graphics()
+    graphics.addGraphic(z, u, "u(z)")
+    graphics.addGraphic(z, f, "F(z)")
+    graphics.addGraphic(z, up, "uₚ(z)")
+    graphics.addGraphic(z, t, "T(z)")
+    graphics.addGraphic(z, k, "k(z)")
+    graphics.addGraphic(z[1:], psi, "ψ(ξ)") # зависимость от ξ, но у z такие же значения
+    graphics.show()
 
