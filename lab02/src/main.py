@@ -7,11 +7,10 @@ import matplotlib.pyplot as plt
 EPS = 1e-4
 MAX_ITER_NUMS = 100
 
-
 class RadiativeTransfer:
 
     def __init__(self, c=3e10, R=0.35, Tw=2000,
-                       T0=10000, k0=8e-3, p=4, m=0.786):
+                       T0=10000, k0=8e-4, p=4, m=0.786):
         self.c  = c # см/с
         self.R  = R # см
         self.Tw = Tw # К
@@ -127,6 +126,7 @@ class RadiativeTransferSolver:
 
     def getXi(self):
         xiFrom, xiTo = self.getXiInterval()
+        print("xi interval %.2f %.2f" % (xiFrom, xiTo))
         xiCur = xiFrom - xiTo
         iterNum = 0
 
