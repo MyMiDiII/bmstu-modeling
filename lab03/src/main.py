@@ -3,18 +3,20 @@ import matplotlib.pyplot as plt
 from prettytable import PrettyTable
 import numpy as np
 
+### !!! коэффициенты в функциях leftCond и rightCond расчитываются неверно
+### !!! надо вывести заново
 
 c = 3e10
 R = 0.35
 Tw = 2000
 T0 = 10000
-k0 = 8e-4
+k0 = 1e4
 p = 4
 m = 0.786
 
 zInit = 0
 zMax = 1
-zStep = 1e-2
+zStep = 1e-5
 EPS = 1e-6
 
 
@@ -28,11 +30,6 @@ def k(z):
 
 def Up(z):
     return 3.084e-4 / (exp(4.799e4 / T(z)) - 1)
-
-
-# def derF(z, F, U):
-#     commonPart = R * c * k(z) * (Up(z) - U)
-#     return -F / z + commonPart if abs(z) > EPS else commonPart / 2
 
 
 def divF(z, u):
@@ -74,9 +71,9 @@ def D(z):
 
 def leftCond(z0, F0, h):
     M0 = (kappaHalf(z0 + h / 2) * (z0 + h / 2)
-            + c * R * h * h / 16 * k(z0 + h / 2) * (z0 + h / 2))
-    K0 = (-kappaHalf(z0 + h / 2) * (z0 + h / 2) 
-            + c * R * h * h / 16 * k(z0 + h / 2) * (z0 + h / 2))
+            + c * R * h * h / 8 * k(z0 + h / 2) * (z0 + h / 2))
+    K0 = (-kappaHalf(z0 + h / 2) * (z0 + h / 2)
+            + c * R * h * h / 8 * k(z0 + h / 2) * (z0 + h / 2))
     P0 = c * R * h * h / 8 * k(z0 + h / 2) * Up(z0 + h / 2) * (z0 + h / 2)
 
     return K0, M0, P0
@@ -100,17 +97,19 @@ def ThomasAlg():
     K0, M0, P0 = leftCond(0, 0, zStep)
     KN, MN, PN = rightCond(1, zStep)
 
-    eps = [0, -K0 / M0]
-    eta = [0, P0 / M0]
-    x = h
+    #eps = [0, -K0 / M0]
+    #eta = [0, P0 / M0]
+    eps = [0, 1]
+    eta = [0, 0]
+    z = h
     n = 1
 
-    while x < zMax + h / 2:
-        eps.append(C(x) / (B(x) - A(x) * eps[n]))
-        eta.append((A(x) * eta[n] + D(x)) / (B(x) - A(x) * eps[n]))
+    while z < zMax + h / 2:
+        eps.append(C(z) / (B(z) - A(z) * eps[n]))
+        eta.append((A(z) * eta[n] + D(z)) / (B(z) - A(z) * eps[n]))
 
         n += 1
-        x += h
+        z += h
 
     # Обратный ход
     u = [0] * (n)
@@ -193,7 +192,6 @@ class Graphics:
 
 
 if __name__ == "__main__":
-    name = ['U(z)', 'F(z)']
     uRes = ThomasAlg()
     zRes = [i for i in np.arange(0, 1 + zStep, zStep)]
 
@@ -212,11 +210,11 @@ if __name__ == "__main__":
 
     table = Table()
     columns = {
-            "z" : (zRes, lambda f, v: f"{v:.2f}"),
-            "F(z)" : (fRes, lambda f, v: f"{v:.3f}"),
-            "Fder(z)" : (FDer, lambda f, v: f"{v:.3f}"),
+            "z" : (zRes, lambda f, v: f"{v:.5f}"),
+            "F(z)" : (fRes, lambda f, v: f"{v:.3e}"),
+            "Fder(z)" : (FDer, lambda f, v: f"{v:.3e}"),
             "U(z)" : (uRes, lambda f, v: f"{v:.4e}"),
-            "divF(z)" : (divF_, lambda f, v: f"{v:.3f}")
+            "divF(z)" : (divF_, lambda f, v: f"{v:.3e}")
     }
     table.add_columns(columns)
     print(table)
