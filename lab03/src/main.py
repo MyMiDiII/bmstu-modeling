@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from prettytable import PrettyTable
 import numpy as np
 
+### Thanks to Ira (https://github.com/kpirap18) for the code
+
 ### !!! коэффициенты в функциях leftCond и rightCond расчитываются неверно
 ### !!! надо вывести заново
 
