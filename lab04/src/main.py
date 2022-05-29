@@ -66,9 +66,6 @@ class Function:
     def F0(self, t):
         period = data['period']
         tu = data['tu']
-        #print(t)
-        #print(100 * fabs(sin(100 * pi * t)))
-        #return 100 * fabs(sin(100 * pi * t))
         #if (t % period <= tu):
             #return self.Fmax / self.tmax * t * e**(-(t / self.tmax - 1))
         #return self.Fmax / self.tmax * t * e**(-(t / self.tmax - 1))
@@ -81,7 +78,6 @@ class Lab4(Function):
                     / self.h / 2)
 
     def D(self, T, n):
-        print(n)
         return (self.tau * (self.Lambda(T[n]) + self.Lambda(T[n + 1]))
                     / self.h / 2)
 
@@ -265,46 +261,6 @@ class Res(Lab4):
             T = Tnew
 
         return res, ti
-        #h = self.h
-        #step1 = int(self.l / h) + 1
-        #T = [self.T0] * (step1 + 1)
-
-        #ti = 0
-        #res = []
-        #res.append(T)
-
-        #ff = 0
-        #while True:
-        #    prev = T
-        #    ti += self.tau
-
-        #    diffTByMax = self.EPS + h
-        #    while diffTByMax > self.EPS:
-        #        Tnew = self.run(prev, ti)
-
-        #        diffTByMax = abs((T[0] - Tnew[0]) / Tnew[0])
-
-        #        for curTPrev, curTnew in zip(T, Tnew):
-        #            curDiff = abs((curTPrev - curTnew) / curTnew)
-
-        #            if curDiff > diffTByMax:
-        #                diffTByMax = curDiff
-
-        #        prev = Tnew
-
-        #    res.append(Tnew)
-        #    ff += 1
-
-        #    check_eps = 0
-        #    for i, j in zip(T, Tnew):
-        #        tttt = fabs((i - j) / j)
-        #        if fabs((i - j) / j) > self.EPS:
-        #            check_eps = 1
-        #    if check_eps == 0:
-        #        break
-        #    T = Tnew
-
-        #return res, ti
 
 
     def draw(self):
