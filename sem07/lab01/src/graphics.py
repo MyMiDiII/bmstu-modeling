@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Tuple
 
 import distributions as dst
 import numpy as np
@@ -6,13 +6,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def GetUniformTableFunc(func: Callable[[float, float, float], float],
-                        a: float, b: float, intervalsNum: int) -> float:
+                        a: float,
+                        b: float,
+                        intervalsNum: int) -> Tuple[list[float], list[float]]:
     xLeft = 2 * a - b
     xRight = 2 * b - a
     step = (xRight - xLeft) / intervalsNum
 
     xColumn = list(np.arange(xLeft, xRight + step / 2, step))
-    print(xColumn)
     yColumn = []
 
     for x in xColumn:
@@ -22,13 +23,14 @@ def GetUniformTableFunc(func: Callable[[float, float, float], float],
 
 
 def GetNormalTableFunc(func: Callable[[float, float, float], float],
-                       m: float, sigma: float, intervalsNum: int) -> float:
+                       m: float,
+                       sigma: float,
+                       intervalsNum: int) -> Tuple[list[float], list[float]]:
     xLeft = m - 4 * sigma
     xRight = m + 4 * sigma
     step = (xRight - xLeft) / intervalsNum
 
     xColumn = list(np.arange(xLeft, xRight + step / 2, step))
-    print(xColumn)
     yColumn = []
 
     for x in xColumn:
@@ -37,7 +39,27 @@ def GetNormalTableFunc(func: Callable[[float, float, float], float],
     return xColumn, yColumn
 
 
-if __name__ == "__main__":
+def GetUniformDensityTableFunc(a: float, b: float,
+                       intervalsNum: int) -> Tuple[list[float], list[float]]:
+    return GetUniformTableFunc(dst.UniformDensityFunc, a, b, intervalsNum)
+
+
+def GetNormalDensityTableFunc(m: float, sigma: float,
+                       intervalsNum: int) -> Tuple[list[float], list[float]]:
+    return GetNormalTableFunc(dst.NormalDensityFunc, m, sigma, intervalsNum)
+
+
+def GetUniformDistributionTableFunc(a: float, b: float,
+                       intervalsNum: int) -> Tuple[list[float], list[float]]:
+    return GetUniformTableFunc(dst.UniformDistributionFunc, a, b, intervalsNum)
+
+
+def GetNormalDistributionTableFunc(m: float, sigma: float,
+                       intervalsNum: int) -> Tuple[list[float], list[float]]:
+    return GetNormalTableFunc(dst.NormalDistributionFunc, m, sigma, intervalsNum)
+
+
+def graphics():
     print("Равномерное")
     a = float(input("a = "))
     b = float(input("b = "))
@@ -45,18 +67,22 @@ if __name__ == "__main__":
     m = float(input("m = "))
     sigma = float(input("sigma = "))
 
-    x, y = GetUniformTableFunc(dst.UniformDensityFunc, a, b, 1000)
+    x, y = GetUniformDensityTableFunc(a, b, 1000)
     plt.plot(x, y)
     plt.show()
 
-    x, y = GetUniformTableFunc(dst.UniformDistributionFunc, a, b, 1000)
+    x, y = GetUniformDistributionTableFunc(a, b, 1000)
     plt.plot(x, y)
     plt.show()
 
-    x, y = GetNormalTableFunc(dst.NormalDensityFunc, m, sigma, 1000)
+    x, y = GetNormalDensityTableFunc(m, sigma, 1000)
     plt.plot(x, y)
     plt.show()
 
-    x, y = GetNormalTableFunc(dst.NormalDistributionFunc, m, sigma, 1000)
+    x, y = GetNormalDistributionTableFunc(m, sigma, 1000)
     plt.plot(x, y)
     plt.show()
+
+
+if __name__ == "__main__":
+    graphics()
