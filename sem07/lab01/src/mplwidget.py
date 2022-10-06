@@ -22,7 +22,18 @@ class MplWidget(QWidget):
         #self.canvas.axes.plot([1, 2, 3, 4], [1, 2, 3, 4])
         self.setLayout(layout)
 
+        self.title = ""
+
 
     def SetTitle(self, title):
+        self.title = title
         self.canvas.axes.set_title(title)
+
+
+    def Update(self, x, y):
+        self.canvas.axes.clear()
+        self.SetTitle(self.title)
+        self.canvas.axes.plot(x, y)
+        self.canvas.axes.grid()
+        self.canvas.draw()
 
