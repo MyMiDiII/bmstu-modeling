@@ -7,7 +7,7 @@ import NavigationToolbar2QT as NavigationToolbar
 
 from mainwindow import Ui_MainWindow
 
-import graphics as gr
+import tablefuncs as tf
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -31,8 +31,8 @@ class MainWindow(QtWidgets.QMainWindow):
         b = self.ui.spinBoxB.value()
 
         if a < b:
-            xDen, yDen = gr.GetUniformDensityTableFunc(a, b, 1000)
-            xDist, yDist = gr.GetUniformDistributionTableFunc(a, b, 1000)
+            xDen, yDen = tf.GetUniformDensityTableFunc(a, b, 1000)
+            xDist, yDist = tf.GetUniformDistributionTableFunc(a, b, 1000)
 
             self.ui.widgetUniformDensity.Update(xDen, yDen)
             self.ui.widgetUniformDistribution.Update(xDist, yDist)
@@ -50,8 +50,8 @@ class MainWindow(QtWidgets.QMainWindow):
         sigma = self.ui.spinBoxSigma.value()
 
         try:
-            xDen, yDen = gr.GetNormalDensityTableFunc(m, sigma, 1000)
-            xDist, yDist = gr.GetNormalDistributionTableFunc(m, sigma, 1000)
+            xDen, yDen = tf.GetNormalDensityTableFunc(m, sigma, 1000)
+            xDist, yDist = tf.GetNormalDistributionTableFunc(m, sigma, 1000)
 
             self.ui.widgetNormalDensity.Update(xDen, yDen)
             self.ui.widgetNormalDistribution.Update(xDist, yDist)
