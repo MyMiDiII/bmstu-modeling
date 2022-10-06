@@ -1,6 +1,6 @@
 from typing import Callable, Tuple
 
-import distributions as dst
+import distributions.distributions as dst
 import numpy as np
 
 import matplotlib.pyplot as plt
