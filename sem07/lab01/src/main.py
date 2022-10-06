@@ -7,7 +7,7 @@ import NavigationToolbar2QT as NavigationToolbar
 
 from mainwindow import Ui_MainWindow
 
-import tablefuncs as tf
+import distributions.tablefuncs as tf
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
