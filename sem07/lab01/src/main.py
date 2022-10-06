@@ -27,18 +27,42 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def graphUniformFuncs(self):
-        x, y = gr.GetUniformTableFunc()
+        a = self.ui.spinBoxA.value()
+        b = self.ui.spinBoxB.value()
+
+        if a < b:
+            xDen, yDen = gr.GetUniformDensityTableFunc(a, b, 1000)
+            xDist, yDist = gr.GetUniformDistributionTableFunc(a, b, 1000)
+
+            self.ui.widgetUniformDensity.Update(xDen, yDen)
+            self.ui.widgetUniformDistribution.Update(xDist, yDist)
+        else:
+            QtWidgets.QMessageBox.critical(
+                    self,
+                    "Ошибка",
+                    "Коэффициент a должен быть меньше b",
+                    QtWidgets.QMessageBox.Ok)
+
 
 
     def graphNormalFuncs(self):
+        m = self.ui.spinBoxM.value()
+        sigma = self.ui.spinBoxSigma.value()
+
+        try:
+            xDen, yDen = gr.GetNormalDensityTableFunc(m, sigma, 1000)
+            xDist, yDist = gr.GetNormalDistributionTableFunc(m, sigma, 1000)
+
+            self.ui.widgetNormalDensity.Update(xDen, yDen)
+            self.ui.widgetNormalDistribution.Update(xDist, yDist)
+        except Exception as e:
+            print(e.args)
 
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    #app.setStyle('Breeze')
     main = MainWindow()
     main.showMaximized()
-    #main.show()
     sys.exit(app.exec_())
 
 
