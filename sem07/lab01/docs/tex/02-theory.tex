@@ -1,5 +1,56 @@
 \chapter{Теоретическая часть}
 
-\section{Равномерное распределени}
+\section{Равномерное распределение}
 
-\section{Нормальное распределени}
+Случайная величина $X$ имеет \bfit{равномерное распределение} на
+отрезке~$[a,~b]$, если ее плотность распределения~$f(x)$ равна:
+\begin{equation}
+    p(x) =
+    \begin{cases}
+        \displaystyle\frac{1}{b - a}, & \quad \text{если } a \leq x \leq b;\\
+        0,  & \quad \text{иначе}.
+    \end{cases}
+\end{equation}
+
+При этом функция распределения~$F(x)$ равна:
+
+\begin{equation}
+    F(x) =
+    \begin{cases}
+        0,  & \quad x < a;\\
+        \displaystyle\frac{x - a}{b - a}, & \quad a \leq x \leq b;\\
+        1,  & \quad x > b.
+    \end{cases}
+\end{equation}
+
+Обозначение: $X \sim R[a, b]$.
+
+\section{Нормальное распределение}
+
+Случайная величина $X$ имеет \bfit{нормальное распределение} с
+параметрами~$m$~и~$\sigma$, если ее плотность распределения~$f(x)$ равна:
+
+\begin{equation}
+    f(x) = \frac{1}{\sigma \cdot \sqrt{2\pi}}~~e^{\displaystyle-\frac{(x -
+    m)^2}{2\sigma^2}}, \quad x \in \mathbb{R}, \sigma > 0.
+\end{equation}
+
+При этом функция распределения~$F(x)$ равна:
+
+\begin{equation}
+    F(x) = \frac{1}{\sigma \cdot \sqrt{2\pi}} \int\limits_{-\infty}^{x}
+    e^{\displaystyle-\frac{(t - m)^2}{2\sigma^2}} dt,
+\end{equation}
+
+или, что то же самое:
+
+\begin{equation}
+    F(x) = \frac{1}{2} \cdot \bigg[1 + \erf\bigg(\frac{x - m}{\sigma
+    \sqrt{2}}\bigg)\bigg],
+\end{equation}
+
+где $\erf(x) = $ \scalebox{1.3}{$\frac{2}{\sqrt{\pi}}$}
+\scalebox{1.1}{$\int\limits_{0}^{x} e^{ -t^2} dt$} --- функция вероятности
+ошибок.
+
+Обозначение: $X \sim N(m, \sigma^2)$.
