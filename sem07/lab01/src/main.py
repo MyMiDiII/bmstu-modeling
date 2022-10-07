@@ -36,6 +36,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.spNormalBtm.setDisabled(self.autoNormal)
         self.ui.spNormalTop.setDisabled(self.autoNormal)
 
+        self.ui.btnAbout1.clicked.connect(self.about)
+        self.ui.btnAbout2.clicked.connect(self.about)
 
 
     def graphUniformFuncs(self):
@@ -105,6 +107,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.autoNormal = not self.autoNormal
         self.ui.spNormalBtm.setDisabled(self.autoNormal)
         self.ui.spNormalTop.setDisabled(self.autoNormal)
+
+
+    def about(self):
+        QtWidgets.QMessageBox.information(
+                self,
+                "О программе",
+                "Автор: Маслова Марина ИУ7-73Б",
+                QtWidgets.QMessageBox.Ok)
 
 
 def main():
