@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QVBoxLayout, QWidget
 
 from matplotlib.backends.backend_qt5agg \
-import FigureCanvas
-#, NavigationToolbar2QT as NavigationToolbar
+import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 
 from matplotlib.figure import Figure
 
@@ -19,10 +18,14 @@ class MplWidget(QWidget):
 
         self.canvas.axes = self.canvas.figure.add_subplot(111)
         self.canvas.figure.tight_layout()
-        #self.canvas.axes.plot([1, 2, 3, 4], [1, 2, 3, 4])
+        self.canvas.figure.subplots_adjust(left=0.133, right=0.995)
+
+        layout.addWidget(NavigationToolbar(self.canvas, parent))
+
         self.setLayout(layout)
 
         self.title = ""
+
 
 
     def SetTitle(self, title):

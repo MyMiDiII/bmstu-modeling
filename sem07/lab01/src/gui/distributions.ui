@@ -267,6 +267,9 @@
                    <italic>false</italic>
                   </font>
                  </property>
+                 <property name="minimum">
+                  <double>-3000.000000000000000</double>
+                 </property>
                  <property name="maximum">
                   <double>3000.000000000000000</double>
                  </property>
@@ -274,7 +277,7 @@
                   <double>0.010000000000000</double>
                  </property>
                  <property name="value">
-                  <double>-0.010000000000000</double>
+                  <double>0.000000000000000</double>
                  </property>
                 </widget>
                </item>
@@ -379,6 +382,7 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
+              <italic>false</italic>
              </font>
             </property>
             <property name="text">
@@ -665,8 +669,11 @@
                    <italic>false</italic>
                   </font>
                  </property>
+                 <property name="minimum">
+                  <double>-5000.000000000000000</double>
+                 </property>
                  <property name="maximum">
-                  <double>3000.000000000000000</double>
+                  <double>5000.000000000000000</double>
                  </property>
                  <property name="singleStep">
                   <double>0.010000000000000</double>
@@ -710,10 +717,10 @@
                   </font>
                  </property>
                  <property name="minimum">
-                  <double>-3000.000000000000000</double>
+                  <double>-5000.000000000000000</double>
                  </property>
                  <property name="maximum">
-                  <double>3000.000000000000000</double>
+                  <double>5000.000000000000000</double>
                  </property>
                  <property name="singleStep">
                   <double>0.010000000000000</double>

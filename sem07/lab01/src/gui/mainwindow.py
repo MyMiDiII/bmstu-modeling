@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'distributions.ui'
+# Form implementation generated from reading ui file './gui/distributions.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.7
 #
@@ -162,9 +162,10 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         font.setItalic(False)
         self.spUniformBtm.setFont(font)
+        self.spUniformBtm.setMinimum(-3000.0)
         self.spUniformBtm.setMaximum(3000.0)
         self.spUniformBtm.setSingleStep(0.01)
-        self.spUniformBtm.setProperty("value", -0.01)
+        self.spUniformBtm.setProperty("value", 0.0)
         self.spUniformBtm.setObjectName("spUniformBtm")
         self.verticalLayout_5.addWidget(self.spUniformBtm)
         self.labelUniformTop = QtWidgets.QLabel(self.gbUniformX)
@@ -216,6 +217,7 @@ class Ui_MainWindow(object):
         self.btnAbout1.setMinimumSize(QtCore.QSize(0, 50))
         font = QtGui.QFont()
         font.setPointSize(12)
+        font.setItalic(False)
         self.btnAbout1.setFont(font)
         self.btnAbout1.setObjectName("btnAbout1")
         self.layoutUniformInfo.addWidget(self.btnAbout1)
@@ -378,7 +380,8 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         font.setItalic(False)
         self.spNormalBtm.setFont(font)
-        self.spNormalBtm.setMaximum(3000.0)
+        self.spNormalBtm.setMinimum(-5000.0)
+        self.spNormalBtm.setMaximum(5000.0)
         self.spNormalBtm.setSingleStep(0.01)
         self.spNormalBtm.setProperty("value", 0.0)
         self.spNormalBtm.setObjectName("spNormalBtm")
@@ -405,8 +408,8 @@ class Ui_MainWindow(object):
         font.setPointSize(12)
         font.setItalic(False)
         self.spNormalTop.setFont(font)
-        self.spNormalTop.setMinimum(-3000.0)
-        self.spNormalTop.setMaximum(3000.0)
+        self.spNormalTop.setMinimum(-5000.0)
+        self.spNormalTop.setMaximum(5000.0)
         self.spNormalTop.setSingleStep(0.01)
         self.spNormalTop.setProperty("value", 0.01)
         self.spNormalTop.setObjectName("spNormalTop")
@@ -489,4 +492,4 @@ class Ui_MainWindow(object):
         self.btnNormalGraph.setText(_translate("MainWindow", "Построить"))
         self.btnAbout2.setText(_translate("MainWindow", "О программе"))
         self.distibutionsTabs.setTabText(self.distibutionsTabs.indexOf(self.normal), _translate("MainWindow", "Нормальное распределение"))
-from mplwidget import MplWidget
+from gui.mplwidget import MplWidget

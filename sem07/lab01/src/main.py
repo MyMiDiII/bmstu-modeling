@@ -5,13 +5,17 @@ from PyQt5 import QtWidgets
 from matplotlib.backends.backend_qt5agg \
 import NavigationToolbar2QT as NavigationToolbar
 
-from mainwindow import Ui_MainWindow
+from gui.mainwindow import Ui_MainWindow
 
 import distributions.tablefuncs as tf
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
+
+        self.autoUniform = True
+        self.autoNormal = True
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -21,21 +25,40 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.widgetNormalDistribution.SetTitle('График функции распределения')
 
         self.ui.btnUniformGraph.clicked.connect(self.graphUniformFuncs)
+
+        self.ui.cbUniformAuto.stateChanged.connect(self.cbUniformAutoChanged)
+        self.ui.spUniformBtm.setDisabled(self.autoUniform)
+        self.ui.spUniformTop.setDisabled(self.autoUniform)
+
         self.ui.btnNormalGraph.clicked.connect(self.graphNormalFuncs)
-        #self.addToolBar(NavigationToolbar(self.ui.widgetUniformDensity.canvas, self))
-        #self.addToolBar(NavigationToolbar(self.ui.widgetUniformDistribution.canvas, self))
+
+        self.ui.cbNormalAuto.stateChanged.connect(self.cbNormalAutoChanged)
+        self.ui.spNormalBtm.setDisabled(self.autoNormal)
+        self.ui.spNormalTop.setDisabled(self.autoNormal)
+
 
 
     def graphUniformFuncs(self):
         a = self.ui.spinBoxA.value()
         b = self.ui.spinBoxB.value()
 
-        if a < b:
-            xDen, yDen = tf.GetUniformDensityTableFunc(a, b, 1000)
-            xDist, yDist = tf.GetUniformDistributionTableFunc(a, b, 1000)
+        interval = ((self.ui.spUniformBtm.value(), self.ui.spUniformTop.value())
+                    if not self.ui.cbUniformAuto.isChecked() else None)
 
-            self.ui.widgetUniformDensity.Update(xDen, yDen)
-            self.ui.widgetUniformDistribution.Update(xDist, yDist)
+        if a < b:
+            if interval is None or interval[0] < interval[1]:
+                xDen, yDen = tf.GetUniformDensityTableFunc(a, b, 1000, interval)
+                xDist, yDist = tf.GetUniformDistributionTableFunc(a, b, 1000, interval)
+
+                self.ui.widgetUniformDensity.Update(xDen, yDen)
+                self.ui.widgetUniformDistribution.Update(xDist, yDist)
+            else:
+                QtWidgets.QMessageBox.critical(
+                        self,
+                        "Ошибка",
+                        "Нижняя граница должна быть меньше верхней",
+                        QtWidgets.QMessageBox.Ok)
+
         else:
             QtWidgets.QMessageBox.critical(
                     self,
@@ -44,19 +67,44 @@ class MainWindow(QtWidgets.QMainWindow):
                     QtWidgets.QMessageBox.Ok)
 
 
-
     def graphNormalFuncs(self):
         m = self.ui.spinBoxM.value()
         sigma = self.ui.spinBoxSigma.value()
 
-        try:
-            xDen, yDen = tf.GetNormalDensityTableFunc(m, sigma, 1000)
-            xDist, yDist = tf.GetNormalDistributionTableFunc(m, sigma, 1000)
+        interval = ((self.ui.spNormalBtm.value(), self.ui.spNormalTop.value())
+                    if not self.ui.cbNormalAuto.isChecked() else None)
 
-            self.ui.widgetNormalDensity.Update(xDen, yDen)
-            self.ui.widgetNormalDistribution.Update(xDist, yDist)
+        try:
+            if interval is None or interval[0] < interval[1]:
+                xDen, yDen = tf.GetNormalDensityTableFunc(m, sigma, 1000,
+                                                          interval)
+                xDist, yDist = tf.GetNormalDistributionTableFunc(m, sigma,
+                                                                 1000, interval)
+
+                self.ui.widgetNormalDensity.Update(xDen, yDen)
+                self.ui.widgetNormalDistribution.Update(xDist, yDist)
+            else:
+                QtWidgets.QMessageBox.critical(
+                        self,
+                        "Ошибка",
+                        "Нижняя граница должна быть меньше верхней",
+                        QtWidgets.QMessageBox.Ok)
+
         except Exception as e:
-            print(e.args)
+            QtWidgets.QMessageBox.critical(
+                    self, "Ошибка", "", QtWidgets.QMessageBox.Ok)
+
+
+    def cbUniformAutoChanged(self):
+        self.autoUniform = not self.autoUniform
+        self.ui.spUniformBtm.setDisabled(self.autoUniform)
+        self.ui.spUniformTop.setDisabled(self.autoUniform)
+
+
+    def cbNormalAutoChanged(self):
+        self.autoNormal = not self.autoNormal
+        self.ui.spNormalBtm.setDisabled(self.autoNormal)
+        self.ui.spNormalTop.setDisabled(self.autoNormal)
 
 
 def main():
