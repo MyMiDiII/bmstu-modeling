@@ -1,3 +1,16 @@
-*out/
-*_minted-report/
+# Python
 *__pycache__/
+
+# TEX
+*.aux
+*.log
+*.bbl
+*.blg
+*.dvi
+*.out
+*.toc
+*.bcf
+*.run.xml
+*_minted-report/
+*.bak
+*out/
