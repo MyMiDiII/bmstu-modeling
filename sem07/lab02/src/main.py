@@ -3,6 +3,7 @@ import random
 
 import numpy as np
 import networkx as nx
+import scipy as sp
 import matplotlib.pyplot as plt
 
 from PyQt5 import QtWidgets
@@ -35,6 +36,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.twResult.horizontalHeader().setSectionResizeMode(
                 QtWidgets.QHeaderView.Stretch)
 
+        self.graphicsData = None
+
 
     def SetMatrix(self):
         self.statesNumber = self.ui.sbNum.value()
@@ -61,6 +64,8 @@ class MainWindow(QtWidgets.QMainWindow):
                     dsbCell.setValue(random.uniform(LAMBDA_MIN, LAMBDA_MAX))
 
                 self.ui.twMatrix.setCellWidget(i, j, dsbCell)
+
+        self.graphicsData = None
 
 
     def GetMatrix(self):
@@ -92,7 +97,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         try:
             p = prob.CalculateMarginalProbabilities(matrix)
-            t = stab.CalculateStabilizationTime(matrix)
+            t, self.graphicsData = stab.CalculateStabilizationTime(matrix, p)
 
             self.ui.twResult.setRowCount(0)
             self.ui.twResult.setColumnCount(len(p))
@@ -100,8 +105,17 @@ class MainWindow(QtWidgets.QMainWindow):
             self.AddRow(self.ui.twResult, t)
             self.ui.twResult.setVerticalHeaderLabels(["P", "t"])
 
-        except:
+            if sum([np.isnan(x) for x in t]) > 0:
+                QtWidgets.QMessageBox.warning(self, "Предупреждение",
+                                              "Одно или несколько значений"
+                                              + " времени не были найдены")
+
+        except sp.linalg.LinAlgError:
             QtWidgets.QMessageBox.critical(self, "Ошибка", "Вырожденная матрица!")
+
+        except Exception as ex:
+            QtWidgets.QMessageBox.critical(self, "Ошибка", "Неизвестная ошибка!")
+            raise ex
 
 
 def main():

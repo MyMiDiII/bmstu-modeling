@@ -5,14 +5,13 @@ import scipy as sp
 def GetKolmogorovEquations(matrix):
     statesNumber = matrix.shape[0]
 
-    leftSide = np.zeros(statesNumber)
     rightSide = np.zeros([statesNumber] * 2)
 
     for state in range(statesNumber):
         rightSide[state][state] = -sum(matrix[state, :])
         rightSide[state] += matrix[:, state]
 
-    return leftSide, rightSide
+    return rightSide
 
 
 def GetNormalizationEquation(statesNumber):
@@ -22,7 +21,8 @@ def GetNormalizationEquation(statesNumber):
 def CalculateMarginalProbabilities(matrix):
     statesNumber = matrix.shape[0]
 
-    leftSide, rightSide = GetKolmogorovEquations(matrix)
+    leftSide = np.zeros(statesNumber)
+    rightSide = GetKolmogorovEquations(matrix)
 
     leftSide[-1], rightSide[-1] = GetNormalizationEquation(statesNumber)
 
