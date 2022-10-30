@@ -136,8 +136,10 @@ class MainWindow(QtWidgets.QMainWindow):
         markedPoints = (self.t / stab.TIME_STEP).astype(int)
 
         for i, y in enumerate(self.graphicsData[1].T):
-            plt.plot(x, y, "-o", label=f"P{i}", markevery=[markedPoints[i]])
+            plt.plot(x, y, "-o", label=f"P{i+1}", markevery=[markedPoints[i]])
 
+        plt.xlabel("t")
+        plt.ylabel("P")
         plt.legend()
         plt.grid()
         plt.show()
