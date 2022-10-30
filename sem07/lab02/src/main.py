@@ -42,12 +42,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.twMatrix.setRowCount(self.statesNumber)
         self.ui.twMatrix.setColumnCount(self.statesNumber)
 
+        self.ui.twMatrix.horizontalHeader().setSectionResizeMode(
+                QtWidgets.QHeaderView.Stretch)
+
         for i in range(self.statesNumber):
             for j in range(self.statesNumber):
+                dsbCell = self.ui.twMatrix.cellWidget(i, j)
+
+                value = 0 if dsbCell is None else dsbCell.value()
+
                 dsbCell = QtWidgets.QDoubleSpinBox()
                 dsbCell.setMinimum(LAMBDA_MIN)
                 dsbCell.setMaximum(LAMBDA_MAX)
                 dsbCell.setSingleStep(LAMBDA_STEP)
+                dsbCell.setValue(value)
 
                 if self.ui.cbGeneration.isChecked():
                     dsbCell.setValue(random.uniform(LAMBDA_MIN, LAMBDA_MAX))
@@ -63,21 +71,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 tmp.append(dsbCell.value())
 
         matrix = np.array(tmp).reshape((self.statesNumber, self.statesNumber))
-
-        print(matrix)
-
-        #G = nx.from_numpy_matrix(matrix, create_using=nx.DiGraph)
-        #print(G)
-
-        #layout = nx.spring_layout(G)
-        #edge_labels = nx.get_edge_attributes(G, "weight")
-        #node_labels = dict((x, x+1) for x in range(self.statesNumber))
-
-        #nx.draw(G, layout, connectionstyle='arc3, rad = 0.1')
-        #nx.draw_networkx_edge_labels(G, pos=layout, edge_labels=edge_labels)
-        #nx.draw_networkx_labels(G, layout, labels=node_labels)
-
-        #plt.show()
 
         return matrix
 
@@ -97,14 +90,18 @@ class MainWindow(QtWidgets.QMainWindow):
     def Calculate(self):
         matrix = self.GetMatrix()
 
-        p = prob.CalculateMarginalProbabilities(matrix)
-        t = stab.CalculateStabilizationTime(matrix)
+        try:
+            p = prob.CalculateMarginalProbabilities(matrix)
+            t = stab.CalculateStabilizationTime(matrix)
 
-        self.ui.twResult.setRowCount(0)
-        self.ui.twResult.setColumnCount(len(p))
-        self.AddRow(self.ui.twResult, p)
-        self.AddRow(self.ui.twResult, t)
-        self.ui.twResult.setVerticalHeaderLabels(["p", "t"])
+            self.ui.twResult.setRowCount(0)
+            self.ui.twResult.setColumnCount(len(p))
+            self.AddRow(self.ui.twResult, p)
+            self.AddRow(self.ui.twResult, t)
+            self.ui.twResult.setVerticalHeaderLabels(["P", "t"])
+
+        except:
+            QtWidgets.QMessageBox.critical(self, "Ошибка", "Вырожденная матрица!")
 
 
 def main():
