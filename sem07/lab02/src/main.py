@@ -29,6 +29,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.btnSetMatrix.clicked.connect(self.SetMatrix)
         self.ui.btnCacl.clicked.connect(self.Calculate)
+        self.ui.btnGraphic.clicked.connect(self.Graph)
 
         self.ui.twMatrix.horizontalHeader().setSectionResizeMode(
                 QtWidgets.QHeaderView.Stretch)
@@ -36,6 +37,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.twResult.horizontalHeader().setSectionResizeMode(
                 QtWidgets.QHeaderView.Stretch)
 
+        self.graphicsData = None
+
+
+    def OnMatrixChanged(self):
         self.graphicsData = None
 
 
@@ -59,6 +64,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 dsbCell.setMaximum(LAMBDA_MAX)
                 dsbCell.setSingleStep(LAMBDA_STEP)
                 dsbCell.setValue(value)
+                dsbCell.valueChanged.connect(self.OnMatrixChanged)
 
                 if self.ui.cbGeneration.isChecked():
                     dsbCell.setValue(random.uniform(LAMBDA_MIN, LAMBDA_MAX))
@@ -96,16 +102,18 @@ class MainWindow(QtWidgets.QMainWindow):
         matrix = self.GetMatrix()
 
         try:
-            p = prob.CalculateMarginalProbabilities(matrix)
-            t, self.graphicsData = stab.CalculateStabilizationTime(matrix, p)
+            self.p = prob.CalculateMarginalProbabilities(matrix)
+            result = stab.CalculateStabilizationTime(matrix, self.p)
+
+            self.t, self.graphicsData = result[0], (result[1], result[2])
 
             self.ui.twResult.setRowCount(0)
-            self.ui.twResult.setColumnCount(len(p))
-            self.AddRow(self.ui.twResult, p)
-            self.AddRow(self.ui.twResult, t)
+            self.ui.twResult.setColumnCount(len(self.p))
+            self.AddRow(self.ui.twResult, self.p)
+            self.AddRow(self.ui.twResult, self.t)
             self.ui.twResult.setVerticalHeaderLabels(["P", "t"])
 
-            if sum([np.isnan(x) for x in t]) > 0:
+            if sum([np.isnan(x) for x in self.t]) > 0:
                 QtWidgets.QMessageBox.warning(self, "Предупреждение",
                                               "Одно или несколько значений"
                                               + " времени не были найдены")
@@ -116,6 +124,23 @@ class MainWindow(QtWidgets.QMainWindow):
         except Exception as ex:
             QtWidgets.QMessageBox.critical(self, "Ошибка", "Неизвестная ошибка!")
             raise ex
+
+
+    def Graph(self):
+        if self.graphicsData is None:
+            QtWidgets.QMessageBox.critical(self, "Ошибка",
+                                           "Сначала произведите расчет")
+            return
+
+        x = self.graphicsData[0]
+        markedPoints = (self.t / stab.TIME_STEP).astype(int)
+
+        for i, y in enumerate(self.graphicsData[1].T):
+            plt.plot(x, y, "-o", label=f"P{i}", markevery=[markedPoints[i]])
+
+        plt.legend()
+        plt.grid()
+        plt.show()
 
 
 def main():

@@ -21,7 +21,8 @@ def CalculateStabilizationTime(matrix, marginalProbabilities):
     timeList = np.arange(0, TIME_MAX, TIME_STEP)
 
     statesNumber = matrix.shape[0]
-    probabilities0 = np.array([1] + [0] * (statesNumber - 1))
+    probabilities0 = np.array([0] * statesNumber)
+    probabilities0[0] = 1
 
     kolmogorovMatrix = GetKolmogorovEquations(matrix)
     probabilitiesTable = sp.integrate.odeint(
@@ -48,4 +49,4 @@ def CalculateStabilizationTime(matrix, marginalProbabilities):
 
         stabilizationTimes[state] = timeList[i] if found else None
 
-    return stabilizationTimes, probabilitiesTable
+    return stabilizationTimes, timeList, probabilitiesTable
