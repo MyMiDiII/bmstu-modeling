@@ -4,30 +4,42 @@ import matplotlib.pyplot as plt
 
 class Generator:
 
-    def __init__(self, normGen):
+    def __init__(self, normGen, lower=0, upper=100):
         self.normGen = normGen
+        self.lower = lower
+        self.upper = upper
 
 
-    def GenerateNumber(self, lower, upper):
-        return round(self.normGen.GetNumber01() * (upper - lower) + lower)
+    def GenerateNumber(self):
+        return round(self.normGen.GetNumber01() * (self.upper - self.lower)
+                     + self.lower)
 
 
-class QuadaticGenerator(Generator):
+    def GenerateSequence(self, length):
+        sequence = []
 
-    def __init__(self):
-        super().__init__(QuadaticRandom())
+        for _ in range(length):
+            sequence.append(self.GenerateNumber())
+
+        return sequence
+
+
+class QuadraticGenerator(Generator):
+
+    def __init__(self, lower, upper):
+        super().__init__(QuadraticRandom(), lower, upper)
 
 
 class CoveyouGenerator(Generator):
 
-    def __init__(self):
-        super().__init__(CoveyouRandom())
+    def __init__(self, lower, upper):
+        super().__init__(CoveyouRandom(), lower, upper)
 
 
 class LinearGenerator(Generator):
 
-    def __init__(self):
-        super().__init__(LinearRandom())
+    def __init__(self, lower, upper):
+        super().__init__(LinearRandom(), lower, upper)
 
 
 class NormalizedRandom(ABC):
@@ -37,7 +49,7 @@ class NormalizedRandom(ABC):
         pass
 
 
-class QuadaticRandom(NormalizedRandom):
+class QuadraticRandom(NormalizedRandom):
 
     def __init__(self):
         self.current = 4001
@@ -86,16 +98,16 @@ def main():
     upper = 100
 
     generators = [
-         QuadaticGenerator(),
-         CoveyouGenerator(),
-         LinearGenerator(),
+         QuadraticGenerator(lower, upper),
+         CoveyouGenerator(lower, upper),
+         LinearGenerator(lower, upper),
     ]
 
     ys = [[], [], []]
 
     for _ in range(numbers):
         for i, generator in enumerate(generators):
-            num = generator.GenerateNumber(lower, upper)
+            num = generator.GenerateNumber()
             print(num)
             ys[i].append(num)
 
@@ -113,6 +125,7 @@ def main():
         plt.legend()
 
     for el in ys:
+        print(el)
         x = el[:-1]
         y = el[1:]
 
