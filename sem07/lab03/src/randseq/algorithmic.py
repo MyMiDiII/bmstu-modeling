@@ -1,15 +1,50 @@
-import random
+from abc import ABC, abstractmethod
 
 import matplotlib.pyplot as plt
 
-class QuadaticRandom:
+class Generator:
+
+    def __init__(self, normGen):
+        self.normGen = normGen
+
+
+    def GenerateNumber(self, lower, upper):
+        return round(self.normGen.GetNumber01() * (upper - lower) + lower)
+
+
+class QuadaticGenerator(Generator):
+
+    def __init__(self):
+        super().__init__(QuadaticRandom())
+
+
+class CoveyouGenerator(Generator):
+
+    def __init__(self):
+        super().__init__(CoveyouRandom())
+
+
+class LinearGenerator(Generator):
+
+    def __init__(self):
+        super().__init__(LinearRandom())
+
+
+class NormalizedRandom(ABC):
+
+    @abstractmethod
+    def GetNumber01(self):
+        pass
+
+
+class QuadaticRandom(NormalizedRandom):
 
     def __init__(self):
         self.current = 4001
         self.A = 6
         self.B = 7
         self.C = 3
-        self.m = 4096
+        self.m = 8192
 
 
     def GetNumber01(self):
@@ -19,11 +54,11 @@ class QuadaticRandom:
         return self.current / self.m
 
 
-class CoveyouRandom:
+class CoveyouRandom(NormalizedRandom):
 
     def __init__(self):
         self.current = 2135
-        self.m = 512
+        self.m = 8192
 
 
     def GetNumber01(self):
@@ -31,7 +66,7 @@ class CoveyouRandom:
         return self.current / self.m
 
 
-class LinearRandom:
+class LinearRandom(NormalizedRandom):
 
     def __init__(self):
         self.current = 10
@@ -39,45 +74,51 @@ class LinearRandom:
         self.a = 36261
         self.c = 66037
 
+
     def GetNumber01(self):
         self.current = (self.a * self.current + self.c) % self.m
         return self.current / self.m
 
 
 def main():
-    genQuad = QuadaticRandom()
-    genCove = CoveyouRandom()
-    genLin = LinearRandom()
+    numbers = 5000
+    lower = 0
+    upper = 100
 
-    yQuad = []
-    yCove = []
-    yLin = []
+    generators = [
+         QuadaticGenerator(),
+         CoveyouGenerator(),
+         LinearGenerator(),
+    ]
 
-    for i in range(1000):
-        num = genQuad.GetNumber01()
-        yQuad.append(num * 100)
-        print(round(num * 100))
+    ys = [[], [], []]
 
-        num = genCove.GetNumber01()
-        yCove.append(num * 100)
-        print(round(num * 100))
+    for _ in range(numbers):
+        for i, generator in enumerate(generators):
+            num = generator.GenerateNumber(lower, upper)
+            print(num)
+            ys[i].append(num)
 
-        num = genLin.GetNumber01()
-        yLin.append(num * 100)
-        print(round(num * 100))
+    x = [i for i in range(numbers)]
 
-    x = [i for i in range(1000)]
-    plt.figure()
-    plt.plot(x, yQuad, label="квадратичный")
-    plt.legend()
+    graphConf = [
+            {"label" : "квадратичный", "color" : "b"},
+            {"label" : "Ковэю", "color" : "g"},
+            {"label" : "линейный", "color" : "orange"},
+    ]
 
-    plt.figure()
-    plt.plot(x, yCove, "g", label="Ковэю")
-    plt.legend()
+    for i, y in enumerate(ys):
+        plt.figure()
+        plt.plot(x, y, label=graphConf[i]["label"], color=graphConf[i]["color"])
+        plt.legend()
 
-    plt.figure()
-    plt.plot(x, yLin, color="orange", label="линейный")
-    plt.legend()
+    for el in ys:
+        x = el[:-1]
+        y = el[1:]
+
+        plt.figure()
+        plt.plot(x, y, "o")
+
     plt.show()
 
 
