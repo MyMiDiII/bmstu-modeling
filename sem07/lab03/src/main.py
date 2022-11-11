@@ -63,7 +63,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QHeaderView.Stretch)
 
         for j, coefficient in enumerate(coefficients):
-            item = QtWidgets.QTableWidgetItem(str(coefficient))
+            item = QtWidgets.QTableWidgetItem("{0:0.3f}".format(coefficient))
             self.ui.twCoefAlg.setItem(0, j, item)
 
 
@@ -104,7 +104,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 QtWidgets.QHeaderView.Stretch)
 
         for j, coefficient in enumerate(coefficients):
-            item = QtWidgets.QTableWidgetItem(str(coefficient))
+            item = QtWidgets.QTableWidgetItem("{0:0.3f}".format(coefficient))
             self.ui.twCoefTable.setItem(0, j, item)
 
 
@@ -126,17 +126,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def calculateInput(self):
         sequence = [self.ui.twInput.cellWidget(i, 0).value()
                         for i in range(self.inputNum)]
-
-        x = sequence[:-1]
-        y = sequence[1:]
-
-        for i in range(len(x)):
-            xcur = sequence[:i+1]
-            ycur = sequence[:i+1]
-            plt.figure()
-            plt.plot(xcur, ycur, "o")
-
-            plt.show()
 
         coefficient = RandomnessCriterion().GetCoefficient(sequence)
 
