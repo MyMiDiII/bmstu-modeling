@@ -21,9 +21,9 @@ class TabularGenerator:
         self.position = SYMBOLS_PER_PAGE * page + COLS_PER_ROW * row + column
 
 
-    def GetNumber(self, digits=1):
+    def GenerateNumber(self, digits=1):
         num = -1
-        with open("./data/digits.txt", "r") as f:
+        with open("randseq/data/digits.txt", "r") as f:
             notRead = True
 
             while notRead:
@@ -46,10 +46,18 @@ class TabularGenerator:
         return num
 
 
+    def GenerateSequence(self, digits, length):
+        sequence = []
+
+        for _ in range(length):
+            sequence.append(self.GenerateNumber(digits))
+
+        return sequence
+
+
 def main():
     generator = TabularGenerator()
-    for i in range(20):
-        print(generator.GetNumber(1))
+    print(generator.GenerateSequence(1, 20))
 
 
 if __name__ == "__main__":
