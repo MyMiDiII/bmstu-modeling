@@ -10,6 +10,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.ui.cbPrinciple.addItems(['Пошаговый', "Событийный"])
+        self.ui.cbPrinciple.currentIndexChanged.connect(
+                lambda : self.ui.dsbDeltaT.setDisabled(True if
+                self.ui.dsbDeltaT.isEnabled() else False)
+                )
+
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
