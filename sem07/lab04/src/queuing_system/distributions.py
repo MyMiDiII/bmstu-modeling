@@ -1,6 +1,13 @@
 import numpy.random as nprand
+from abc import ABC, abstractmethod
 
-class Uniform:
+class Distribution(ABC):
+    @abstractmethod
+    def generate(self):
+        pass
+
+
+class Uniform(Distribution):
 
     def __init__(self, a, b):
         self.a = min(a, b)
@@ -11,7 +18,7 @@ class Uniform:
         return nprand.uniform(self.a, self.b)
 
 
-class Normal:
+class Normal(Distribution):
 
     def __init__(self, m, sigma):
         self.m = m
