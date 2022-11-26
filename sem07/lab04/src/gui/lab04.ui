@@ -16,7 +16,50 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_6">
     <item row="0" column="0">
-     <layout class="QGridLayout" name="gridLayout_5">
+     <layout class="QGridLayout" name="glMain">
+      <item row="1" column="1">
+       <widget class="QGroupBox" name="gbResults">
+        <property name="title">
+         <string>Результат моделирования</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="3">
+          <widget class="QSpinBox" name="sbMaxLenStep">
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+           <property name="maximum">
+            <number>30000</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="lblMaxLenStep">
+           <property name="text">
+            <string>Пошаговый принцип</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="lblMaxLenEvent">
+           <property name="text">
+            <string>Событийный принцип</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QSpinBox" name="sbMaxLenEvent">
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+           <property name="maximum">
+            <number>30000</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
       <item row="0" column="1">
        <widget class="QGroupBox" name="gbOthersParams">
         <property name="title">
@@ -55,7 +98,11 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="QDoubleSpinBox" name="dsbDeltaT"/>
+          <widget class="QDoubleSpinBox" name="dsbDeltaT">
+           <property name="maximum">
+            <double>1000.000000000000000</double>
+           </property>
+          </widget>
          </item>
          <item row="1" column="2">
           <widget class="QLabel" name="lblDeltaT">
@@ -80,7 +127,7 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="3">
-          <widget class="QDoubleSpinBox" name="sbSigma">
+          <widget class="QDoubleSpinBox" name="dsbSigma">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -128,7 +175,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="sbM">
+          <widget class="QDoubleSpinBox" name="dsbM">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -136,7 +183,7 @@
             </sizepolicy>
            </property>
            <property name="minimum">
-            <double>-1000.000000000000000</double>
+            <double>0.000000000000000</double>
            </property>
            <property name="maximum">
             <double>1000.000000000000000</double>
@@ -175,7 +222,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QDoubleSpinBox" name="sbA">
+          <widget class="QDoubleSpinBox" name="dsbA">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -183,16 +230,16 @@
             </sizepolicy>
            </property>
            <property name="minimum">
-            <double>-1000.000000000000000</double>
+            <double>0.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>1000.000000000000000</double>
+            <double>10000.000000000000000</double>
            </property>
            <property name="singleStep">
             <double>0.010000000000000</double>
            </property>
            <property name="value">
-            <double>-1.000000000000000</double>
+            <double>0.000000000000000</double>
            </property>
           </widget>
          </item>
@@ -210,7 +257,7 @@
           </widget>
          </item>
          <item row="0" column="3">
-          <widget class="QDoubleSpinBox" name="sbB">
+          <widget class="QDoubleSpinBox" name="dsbB">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -218,10 +265,10 @@
             </sizepolicy>
            </property>
            <property name="minimum">
-            <double>-1000.000000000000000</double>
+            <double>0.000000000000000</double>
            </property>
            <property name="maximum">
-            <double>1000.000000000000000</double>
+            <double>10000.000000000000000</double>
            </property>
            <property name="singleStep">
             <double>0.010000000000000</double>
@@ -234,44 +281,7 @@
         </layout>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QGroupBox" name="gbResults">
-        <property name="title">
-         <string>Результат моделирования</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="3">
-          <widget class="QSpinBox" name="sbMaxLen">
-           <property name="maximum">
-            <number>30000</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="lblMaxLen">
-           <property name="text">
-            <string>Пошаговый принцип</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QLabel" name="lblMaxLen_2">
-           <property name="text">
-            <string>Событийный принцип</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="3">
-          <widget class="QSpinBox" name="sbMaxLen_2">
-           <property name="maximum">
-            <number>30000</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
+      <item row="3" column="0" colspan="2">
        <widget class="QLabel" name="lblAuthor">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -285,6 +295,13 @@ color: rgb(110, 110, 110);</string>
         </property>
         <property name="text">
          <string>Автор: Маслова Марина ИУ7-73Б</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QPushButton" name="btnRun">
+        <property name="text">
+         <string>Выполнить</string>
         </property>
        </widget>
       </item>

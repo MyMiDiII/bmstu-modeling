@@ -1,4 +1,4 @@
-from distributions import Distribution
+from queuing_system.distributions import Distribution
 
 class Generator:
 

@@ -1,12 +1,12 @@
-from event import Event, EventType
 import random
 import bisect
 
-from generator import Generator
-from memory import Memory
-from processor import Processor
+from queuing_system.event import Event, EventType
+from queuing_system.generator import Generator
+from queuing_system.memory import Memory
+from queuing_system.processor import Processor
 
-from distributions import Uniform, Normal
+from queuing_system.distributions import Uniform, Normal
 
 class FutureEvents:
 
@@ -39,8 +39,7 @@ class EventModel:
 
 
     def run(self):
-        #self.memory.reset()
-        #self.processor.reset()
+        self.processor.set_aviable(True)
 
         processed_requests = 0
         total_requests = self.requests_num
