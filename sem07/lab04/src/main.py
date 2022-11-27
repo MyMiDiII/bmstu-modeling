@@ -26,7 +26,7 @@ class MainWindow(QtWidgets.QMainWindow):
         a, b = self.ui.dsbA.value(), self.ui.dsbB.value()
         m, sigma = self.ui.dsbM.value(), self.ui.dsbSigma.value()
         num = self.ui.sbRequestNum.value()
-        percent = self.ui.dsbProbability.value()
+        percent = int(self.ui.dsbProbability.value() * 100)
         delta_t = self.ui.dsbDeltaT.value()
 
         if m < 4 * sigma:

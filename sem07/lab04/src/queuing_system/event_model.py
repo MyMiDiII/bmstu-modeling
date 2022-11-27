@@ -61,7 +61,7 @@ class EventModel:
             if cur_event.event_type == EventType.PROCESSOR:
                 print("End process")
                 processed_requests += 1
-                if random.randint(0, 100) <= self.repeat_percent:
+                if random.randint(0, 100) < self.repeat_percent:
                     print("Repeat!!!")
                     self.memory.insert_request()
                     total_requests += 1
@@ -81,6 +81,7 @@ class EventModel:
             print(f"Events: {[str(x) for x in events.all_events()]}")
             print()
 
+        print(f"Repeat: {self.repeat_percent}")
         print(f"Requests: {total_requests}")
         print(f"Repeats: {total_requests - self.requests_num}")
         print(f"Time: {cur_event.time}")
