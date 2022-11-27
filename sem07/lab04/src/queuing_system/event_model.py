@@ -70,7 +70,7 @@ class EventModel:
                 if random.randint(0, 100) < self.repeat_percent:
                     #print("Repeat!!!")
                     self.memory.insert_request()
-                    total_requests += 1
+                    #total_requests += 1
                 self.processor.set_aviable(True)
 
             if self.processor.is_aviable():

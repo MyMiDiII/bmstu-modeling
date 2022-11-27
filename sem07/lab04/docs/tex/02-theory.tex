@@ -13,18 +13,16 @@
     \end{cases}
 \end{equation}
 
-При этом функция распределения~$F(x)$ равна:
+Обозначение: $X \sim R[a, b]$.
+
+Момент времени $t_i$ может быть вычислен по следующей формуле:
 
 \begin{equation}
-    F(x) =
-    \begin{cases}
-        0,  & \quad x < a;\\
-        \displaystyle\frac{x - a}{b - a}, & \quad a \leq x \leq b;\\
-        1,  & \quad x > b.
-    \end{cases}
+    t_i = a + (b - a) R, 
 \end{equation}
 
-Обозначение: $X \sim R[a, b]$.
+где $R \in [0, 1]$ --- равномерно распределенная случайная величина в
+промежутке~$[0, 1]$.
 
 \subsection{Нормальное распределение}
 
@@ -36,14 +34,16 @@
     m)^2}{2\sigma^2}}, \quad x \in \mathbb{R}, \sigma > 0.
 \end{equation}
 
-При этом функция распределения~$F(x)$ равна:
+Обозначение: $X \sim N(m, \sigma^2)$.
+
+Момент времени $t_i$ может быть вычислен по следующей формуле:
 
 \begin{equation}
-    F(x) = \frac{1}{\sigma \cdot \sqrt{2\pi}} \int\limits_{-\infty}^{x}
-    e^{\displaystyle-\frac{(t - m)^2}{2\sigma^2}} dt.
+    t_i = \sigma \sqrt\frac{12}{n}(\sum\limits_{i=1}^{n} R_i - \frac{n}{2}) + m,
 \end{equation}
 
-Обозначение: $X \sim N(m, \sigma^2)$.
+где $R_i \in [0, 1]$ --- равномерно распределенные случайные величины в
+промежутке~$[0, 1]$.
 
 \section{Описание принципов}
 
