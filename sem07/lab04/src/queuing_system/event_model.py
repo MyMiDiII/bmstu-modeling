@@ -40,6 +40,7 @@ class EventModel:
 
     def run(self):
         self.processor.set_aviable(True)
+        #print(self.memory.cur_len)
 
         processed_requests = 0
         total_requests = self.requests_num
@@ -47,40 +48,46 @@ class EventModel:
 
         events.add(Event(self.generator.next_time(), EventType.GENERATOR))
 
+        gen_num = 0
+        proc_num = 0
+
         while processed_requests < total_requests:
-            print("NEW EVENT")
+            #print("NEW EVENT")
             cur_event = events.next()
-            print(cur_event)
+            #print(cur_event)
 
             if cur_event.event_type == EventType.GENERATOR:
-                print("Generate")
+                #print(f"GENERATE {gen_num + 1} {cur_event.time}")
                 self.memory.insert_request()
                 events.add(Event(cur_event.time + self.generator.next_time(),
                                  EventType.GENERATOR))
+                gen_num += 1
 
             if cur_event.event_type == EventType.PROCESSOR:
-                print("End process")
+                #print(f"{proc_num + 1} end process time {cur_event.time}")
+                #print("End process")
                 processed_requests += 1
                 if random.randint(0, 100) < self.repeat_percent:
-                    print("Repeat!!!")
+                    #print("Repeat!!!")
                     self.memory.insert_request()
                     total_requests += 1
                 self.processor.set_aviable(True)
 
             if self.processor.is_aviable():
-                print(self.memory.is_empty())
+                #print(self.memory.is_empty())
                 if not self.memory.is_empty():
-                    print("Begin process")
+                    #print(f"Begin process {proc_num + 1}")
                     self.memory.remove_request()
                     self.processor.set_aviable(False)
-                    print(self.processor.is_aviable())
+                    #print(self.processor.is_aviable())
                     events.add(Event(cur_event.time +
                                      self.processor.process_time(),
                                      EventType.PROCESSOR))
-            print(f"Memory size: {self.memory.cur_len}")
-            print(f"Events: {[str(x) for x in events.all_events()]}")
-            print()
+            #print(f"Memory size: {self.memory.cur_len}")
+            #print(f"Events: {[str(x) for x in events.all_events()]}")
+            #print()
 
+        print("\nEVENT MODEL")
         print(f"Repeat: {self.repeat_percent}")
         print(f"Requests: {total_requests}")
         print(f"Repeats: {total_requests - self.requests_num}")

@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 from gui.mainwindow import Ui_MainWindow
 
 from queuing_system.event_model   import EventModel
+from queuing_system.step_model    import StepModel
 from queuing_system.generator     import Generator
 from queuing_system.memory        import Memory
 from queuing_system.processor     import Processor
@@ -35,6 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 "Ошибка",
                 "При таких m и sigma возможна генерация отрицательных значений",
                 QtWidgets.QMessageBox.Ok)
+            return
 
 
         generator = Generator(Uniform(a, b))
@@ -44,7 +46,25 @@ class MainWindow(QtWidgets.QMainWindow):
         event_model = EventModel(generator, memory, processor, num, percent)
         event_model_result = event_model.run()
 
+        generator = Generator(Uniform(a, b))
+        memory = Memory()
+        processor = Processor(Normal(m, sigma))
+
+        step_model = StepModel(generator, memory, processor,
+                               num, percent, delta_t)
+        step_model_result = step_model.run()
+
         self.ui.sbMaxLenEvent.setValue(event_model_result)
+
+        if step_model_result == -1:
+            QtWidgets.QMessageBox.critical(
+                self,
+                "Ошибка",
+                "Слишком большой шаг",
+                QtWidgets.QMessageBox.Ok)
+            return
+
+        self.ui.sbMaxLenStep.setValue(step_model_result)
 
 
 def main():
