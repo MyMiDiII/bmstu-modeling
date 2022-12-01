@@ -1,16 +1,12 @@
-from enum import Enum
 from dataclasses import dataclass
 
-
-class EventType(Enum):
-    GENERATOR = 1
-    PROCESSOR = 2
+from typing import Union
 
 @dataclass
 class Event:
-    def __init__(self, time: float, event_type: EventType):
+    def __init__(self, time: float, eventBlock: Union['Generator', 'Processor']):
         self.time = time
-        self.event_type = event_type
+        self.eventBlock = eventBlock
 
     def __lt__(self, other):
         return self.time < other.time
@@ -31,4 +27,16 @@ class Event:
         return self.time >= other.time
 
     def __str__(self):
-        return f"time: {self.time}, type: {self.event_type}"
+        return f"time: {self.time}, type: {self.eventBlock}"
+
+    @property
+    def Time(self):
+        return self.time
+
+    @Time.setter
+    def Time(self, value):
+        self.time = value
+
+    @property
+    def EventBlock(self):
+        return self.eventBlock

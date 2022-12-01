@@ -1,16 +1,39 @@
-from mss.distributions import Distribution
+from mss.generator import Generator
+from mss.memory import Memory
 
-class Processor:
+class Processor(Generator):
 
-    def __init__(self, distribution: Distribution):
-        self.distribution = distribution
+    def __init__(self, generator: Generator, memory: Memory):
+        super().__init__(generator.distribution, generator.receivers)
+        self.nextEvent.eventBlock = self
+        self.memory = memory
         self.aviable = True
 
-    def process_time(self):
-        return self.distribution.generate()
+    def ProcessTime(self):
+        return self.GenerateNextEvent()
 
-    def set_aviable(self, state=True):
+    def SetAviable(self, state=True):
         self.aviable = state
 
-    def is_aviable(self) -> bool:
+    def IsAviable(self) -> bool:
         return self.aviable
+
+    def TakeRequest(self, curTime) -> bool:
+        if self.aviable:
+            self.SetAviable(False)
+            self.GenerateNextEvent(curTime)
+            return True
+
+        return self.memory.InsertRequest()
+
+    def EndProcess(self, curTime):
+        self.TransmitRequest()
+
+        if not self.memory.IsEmpty():
+            self.memory.RemoveRequest()
+            self.GenerateNextEvent(curTime)
+        else:
+            self.SetAviable(True)
+            self.NextEvent.Time = -1
+
+

@@ -1,31 +1,35 @@
 class Memory:
 
-    def __init__(self):
-        self.cur_len = 0
-        self.max_len = 0
+    def __init__(self, capacity: int = None):
+        self.curLen = 0
+        self.capacity = capacity
 
-    def insert_request(self):
-        self.cur_len += 1
-        self.max_len = max(self.max_len, self.cur_len)
+    def InsertRequest(self) -> bool:
+        if self.curLen != self.capacity:
+            self.curLen += 1
+            return True
 
-    def remove_request(self):
-        self.cur_len -= 1
-        self.cur_len = 0 if self.cur_len < 0 else self.cur_len
+        return False
 
-    def is_empty(self) -> bool:
-        return self.cur_len == 0
+    def RemoveRequest(self) -> bool:
+        self.curLen = max(self.curLen - 1, 0)
+
+        return self.curLen
+
+    def IsEmpty(self) -> bool:
+        return self.curLen == 0
 
 
 if __name__ == "__main__":
     mem = Memory()
-    mem.insert_request()
-    print(mem.cur_len, mem.max_len)
-    mem.insert_request()
-    print(mem.cur_len, mem.max_len)
-    mem.remove_request()
-    print(mem.cur_len, mem.max_len)
-    mem.remove_request()
-    print(mem.cur_len, mem.max_len)
-    mem.remove_request()
-    print(mem.cur_len, mem.max_len)
+    mem.InsertRequest()
+    print(mem.curLen)
+    mem.InsertRequest()
+    print(mem.curLen)
+    mem.RemoveRequest()
+    print(mem.curLen)
+    mem.RemoveRequest()
+    print(mem.curLen)
+    mem.RemoveRequest()
+    print(mem.curLen)
 

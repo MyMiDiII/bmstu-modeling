@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Distribution(ABC):
     @abstractmethod
-    def generate(self):
+    def Generate(self):
         pass
 
 
@@ -14,7 +14,7 @@ class Uniform(Distribution):
         self.b = max(a, b)
 
 
-    def generate(self):
+    def Generate(self):
         return nprand.uniform(self.a, self.b)
 
 
@@ -25,13 +25,13 @@ class Normal(Distribution):
         self.sigma = sigma
 
 
-    def generate(self):
+    def Generate(self):
         return nprand.normal(self.m, self.sigma)
 
 
 if __name__ == "__main__":
     uniform = Uniform(-10, 10)
-    print(uniform.generate())
+    print(uniform.Generate())
 
     normal = Normal(0, 5)
-    print(normal.generate())
+    print(normal.Generate())
