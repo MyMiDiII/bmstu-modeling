@@ -70,7 +70,7 @@ class MainWindow(QtWidgets.QMainWindow):
                                           , probabilityVIP)
 
         model = EventModel(generator, checkers, attendants, number)
-        time = model.run()
+        time = model.run() / 60
 
         self.ui.lcdResult.display(time)
 
