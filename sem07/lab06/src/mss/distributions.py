@@ -18,6 +18,17 @@ class Uniform(Distribution):
         return nprand.uniform(self.a, self.b)
 
 
+class UniformInt(Distribution):
+
+    def __init__(self, a, b):
+        self.a = min(a, b)
+        self.b = max(a, b)
+
+
+    def Generate(self):
+        return nprand.randint(self.a, self.b)
+
+
 class Normal(Distribution):
 
     def __init__(self, m, sigma):

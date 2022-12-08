@@ -1,12 +1,13 @@
 import random
 import bisect
+import time
 
 from typing import Union
 
 from mss.event import Event
-from mss.generator import Generator
+from mss.generator import TheatergoersGenerator
 from mss.memory import Memory
-from mss.processor import Processor
+from mss.processor import Processor, ProcessorVIP
 
 from mss.distributions import Uniform, Normal
 
@@ -15,10 +16,10 @@ EPS = 1e-4
 class EventModel:
 
     def __init__(self
-                 , generator: Generator
-                 , checkers:  list[Processor]
+                 , generator:TheatergoersGenerator
+                 , checkers:  list[ProcessorVIP]
                  , cloakroomAttendant: list[Processor]
-                 , theatergoersNUm=1000):
+                 , theatergoersNum=1000):
         self.generator = generator
         self.checkers  = checkers
         self.attendant = cloakroomAttendant
@@ -30,29 +31,45 @@ class EventModel:
         self.generator.GenerateNextEvent(0)
         events = [block.NextEvent for block in self.blocks]
 
-        generatedRequests = 1
-        denials = 0
+        theatergoersGenerated = self.generator.requestsNum
+        theatergoersInTheator = 0
 
         curTime = 0
-        while generatedRequests < self.requestsNum:
-            print("NEW EVENT")
-            for ev in events:
-                print(ev)
-
+        while theatergoersInTheator < self.theatergoersNum:
             curTime = events[0].Time
             for event in events[1:]:
-                if not event.Time < 0 and event.Time < curTime:
+                if not (event.Time < 0) and event.Time < curTime or curTime < 0:
                     curTime = event.Time
+
+            print("NEW EVENT")
+            print("time", curTime)
+            print("in", theatergoersInTheator)
+            print("gen", theatergoersGenerated)
+            for i, ev in enumerate(events):
+                #print(ev)
+                if isinstance(ev.eventBlock, Processor):
+                    print(f"Канал {i} {ev.eventBlock}")
+                    print(ev.eventBlock.GetQueueLength())
 
             for block in self.blocks:
                 if abs(block.NextEvent.Time - curTime) < EPS:
                     if not isinstance(block.NextEvent.EventBlock, Processor):
                         print("Gen")
                         block.TransmitRequest()
-                        block.GenerateNextEvent(curTime)
+
+                        #print(block.NextEvent.EventBlock)
+                        if theatergoersGenerated < self.theatergoersNum:
+                            block.GenerateNextEvent(curTime)
+                            print(block.requestsNum)
+                            theatergoersGenerated += block.requestsNum
+                        else:
+                            block.NextEvent.time = -1
                     else:
                         print("Proc")
                         block.EndProcess(curTime)
+                        if not isinstance(block, ProcessorVIP):
+                            theatergoersInTheator += 1
+
 
         print(curTime)
         return curTime

@@ -9,17 +9,17 @@ class Generator:
         self.distribution = distribution
         self.receivers = receivers
         self.nextEvent = Event(-1, self)
-        self.addParams = []
+        self.requestsNum = 1
 
     def GenerateNextEvent(self, curTime):
         self.nextEvent.Time = curTime + self.distribution.Generate()
 
     def TransmitRequest(self):
-        for receiver in self.receivers:
-            if receiver.TakeRequest(self.nextEvent.time, *self.addParams):
-                return True
+        if not self.receivers:
+            return
 
-        return False
+        receiver = min(self.receivers, key=lambda rec: rec.GetQueueLength())
+        return receiver.TakeRequest(self.nextEvent.time, self.requestsNum)
 
     @property
     def NextEvent(self):
@@ -29,28 +29,27 @@ class Generator:
 class TheatergoersGenerator(Generator):
 
     def __init__(self, distribution: Distribution
-                     , receivers: list['Processor']
+                     , numDistribution:  Distribution
+                     , receivers: list['ProcessorVIP']
                      , probabilityVIP: float):
         super().__init__(distribution, receivers)
+        self.numDistribution = numDistribution
         self.isNextVIP = False
-        self.requestsNum = 1
         self.probabilityVIP = probabilityVIP
         self.addParams = [self.isNextVIP, self.requestsNum]
 
     def GenerateNextEvent(self, curTime):
         super().GenerateNextEvent(curTime)
         self.isNextVIP = random.random() < self.probabilityVIP
-
-
-class GroupTheatergoersGenerator(TheatergoersGenerator):
-
-    def __init__(self, timeDistribution: Distribution
-                     , numDistribution:  Distribution
-                     , receivers: list['Processor']
-                     , probabilityVIP: float):
-        super().__init__(timeDistribution, receivers, probabilityVIP)
-        self.numDistribution = numDistribution
-
-    def GenerateNextEvent(self, curTime):
-        super().GenerateNextEvent(curTime)
         self.requestsNum = self.numDistribution.Generate()
+
+    def TransmitRequest(self):
+        if not self.receivers:
+            return
+
+        neededRecievers = [rec for rec in self.receivers
+                               if rec.isVIP == self.isNextVIP]
+        receiver = min(neededRecievers, key=lambda rec: rec.GetQueueLength())
+        print(f"I transmit to {receiver}")
+
+        return receiver.TakeRequest(self.nextEvent.time, self.requestsNum)

@@ -3,12 +3,11 @@ from mss.memory import Memory
 
 class Processor(Generator):
 
-    def __init__(self, generator: Generator, memory: Memory, isVIP: bool):
+    def __init__(self, generator: Generator, memory: Memory):
         super().__init__(generator.distribution, generator.receivers)
         self.nextEvent.eventBlock = self
         self.memory = memory
         self.aviable = True
-        self.isVIP = isVIP
 
     def ProcessTime(self):
         return self.GenerateNextEvent()
@@ -19,10 +18,16 @@ class Processor(Generator):
     def IsAviable(self) -> bool:
         return self.aviable
 
-    def TakeRequest(self, curTime, params=[]) -> bool:
+    def GetQueueLength(self) -> int:
+        return self.memory.CurLen
+
+    def TakeRequest(self, curTime, requestsNum) -> bool:
         if self.aviable:
             self.SetAviable(False)
             self.GenerateNextEvent(curTime)
+            requestsNum -= 1
+
+        if requestsNum == 0:
             return True
 
         isInserted = True
@@ -44,3 +49,8 @@ class Processor(Generator):
             self.NextEvent.Time = -1
 
 
+class ProcessorVIP(Processor):
+
+    def __init__(self, generator: Generator, memory: Memory, isVIP: bool):
+        super().__init__(generator, memory)
+        self.isVIP = isVIP

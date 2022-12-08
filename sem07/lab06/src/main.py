@@ -4,10 +4,10 @@ from PyQt5 import QtWidgets
 from gui.mainwindow import Ui_MainWindow
 
 from mss.eventmodeller import EventModel
-from mss.generator     import Generator
+from mss.generator     import Generator, TheatergoersGenerator
 from mss.memory        import Memory
-from mss.processor     import Processor
-from mss.distributions import Uniform
+from mss.processor     import Processor, ProcessorVIP
+from mss.distributions import Uniform, UniformInt
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -22,17 +22,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def run(self):
-        clientM = self.ui.sbClientsM.value()
-        clientD = self.ui.sbClientsD.value()
+        theatergoersM = 5
+        theatergoersD = 4
 
-        op1M, op1D = self.ui.sbOperator1M.value(), self.ui.sbOperator1D.value()
-        op2M, op2D = self.ui.sbOperator2M.value(), self.ui.sbOperator2D.value()
-        op3M, op3D = self.ui.sbOperator3M.value(), self.ui.sbOperator3D.value()
+        numM = 3
+        numD = 2
 
-        computer1M = self.ui.sbComputer1.value()
-        computer2M = self.ui.sbComputer2.value()
+        checkersM = 10
+        checkersD = 5
 
-        requestsNum = self.ui.sbNum.value()
+        attendantM = 7
+        attendantD = 3
+
+        probabilityVIP = 0.05
+
+        number = 600
 
         #print("run")
         #print(clientM, clientD)
@@ -43,44 +47,44 @@ class MainWindow(QtWidgets.QMainWindow):
         #print(computer2M)
         #print(requestsNum)
 
-        generatorDistribution = Uniform(clientM-clientD, clientM+clientD)
+        generatorDistribution = Uniform(theatergoersM-theatergoersD
+                                        , theatergoersM+theatergoersD)
+        numDistribution = UniformInt(numM-numD, numM+numD)
+        checkerDistribution = Uniform(checkersM-checkersD, checkersM+checkersD)
+        attendantDistribution = Uniform(attendantM-attendantD
+                                        , attendantM+attendantD)
 
-        operator1Distribution = Uniform(op1M-op1D, op1M+op1D)
-        operator2Distribution = Uniform(op2M-op2D, op2M+op2D)
-        operator3Distribution = Uniform(op3M-op3D, op3M+op3D)
+        attendant1Generator = Generator(attendantDistribution, [])
+        attendant2Generator = Generator(attendantDistribution, [])
+        attendant3Generator = Generator(attendantDistribution, [])
+        attendant4Generator = Generator(attendantDistribution, [])
 
-        computer1Distribution = Uniform(computer1M, computer1M)
-        computer2Distribution = Uniform(computer2M, computer2M)
+        attendant1 = Processor(attendant1Generator, Memory())
+        attendant2 = Processor(attendant2Generator, Memory())
+        attendant3 = Processor(attendant3Generator, Memory())
+        attendant4 = Processor(attendant4Generator, Memory())
 
-        computer1Generator = Generator(computer1Distribution, [])
-        computer2Generator = Generator(computer2Distribution, [])
+        attendants = [attendant1, attendant2, attendant3, attendant4]
 
-        computer1 = Processor(computer1Generator, Memory())
-        computer2 = Processor(computer2Generator, Memory())
-        computers = [computer1, computer2]
+        checker1Generator = Generator(checkerDistribution, attendants)
+        checker2Generator = Generator(checkerDistribution, attendants)
+        checker3Generator = Generator(checkerDistribution, attendants)
 
-        operator1Generator = Generator(operator1Distribution, [computer1])
-        operator2Generator = Generator(operator2Distribution, [computer1])
-        operator3Generator = Generator(operator3Distribution, [computer2])
+        checker1 = ProcessorVIP(checker1Generator, Memory(), False)
+        checker2 = ProcessorVIP(checker2Generator, Memory(), False)
+        checker3 = ProcessorVIP(checker3Generator, Memory(), True)
 
-        operator1 = Processor(operator1Generator, Memory(0))
-        operator2 = Processor(operator2Generator, Memory(0))
-        operator3 = Processor(operator3Generator, Memory(0))
+        checkers = [checker1, checker2, checker3]
 
-        operators = [operator1, operator2, operator3]
+        generator = TheatergoersGenerator(generatorDistribution
+                                          , numDistribution
+                                          , checkers
+                                          , probabilityVIP)
 
-        orderedOperators = sorted([(operator1, op1M, op1D)
-                                  ,(operator2, op1M, op2D)
-                                  ,(operator3, op3M, op3D)],
-                                  key=lambda x: (x[1], -x[2]))
-        orderedOperators = [operator[0] for operator in orderedOperators]
+        model = EventModel(generator, checkers, attendants, number)
+        time = model.run()
 
-        generator = Generator(generatorDistribution, orderedOperators)
-
-        model = EventModel(generator, operators, computers, requestsNum)
-        probability = model.run()
-
-        self.ui.dsbProbability.setValue(probability)
+        print(time)
 
 
 def main():

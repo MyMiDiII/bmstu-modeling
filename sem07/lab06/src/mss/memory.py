@@ -19,6 +19,10 @@ class Memory:
     def IsEmpty(self) -> bool:
         return self.curLen == 0
 
+    @property
+    def CurLen(self):
+        return self.curLen
+
 
 if __name__ == "__main__":
     mem = Memory()
