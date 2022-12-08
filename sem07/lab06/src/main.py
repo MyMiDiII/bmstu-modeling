@@ -1,4 +1,5 @@
 import sys
+import math
 
 from PyQt5 import QtWidgets
 from gui.mainwindow import Ui_MainWindow
@@ -70,7 +71,7 @@ class MainWindow(QtWidgets.QMainWindow):
                                           , probabilityVIP)
 
         model = EventModel(generator, checkers, attendants, number)
-        time = model.run() / 60
+        time = math.ceil(model.run() / 60)
 
         self.ui.lcdResult.display(time)
 
