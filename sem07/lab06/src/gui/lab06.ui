@@ -6,135 +6,89 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1073</width>
-    <height>549</height>
+    <width>819</width>
+    <height>456</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Маслова Марина ИУ7-73Б Лабораторная работа №5</string>
+   <string>Маслова Марина ИУ7-73Б Лабораторная работа №6</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_10">
-    <item row="0" column="1">
-     <spacer name="vspaceUp">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>10</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="0">
-     <spacer name="hspaceLeft">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>10</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="1" colspan="2">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
      <layout class="QGridLayout" name="glMain">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetNoConstraint</enum>
-      </property>
-      <item row="4" column="4" rowspan="2">
-       <widget class="QGroupBox" name="gbComputer2">
+      <item row="0" column="1">
+       <widget class="QGroupBox" name="gbCheck">
         <property name="title">
-         <string>Компьютер 2</string>
+         <string>Проверка билетов</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_6">
-         <item row="0" column="1">
-          <widget class="QLabel" name="lblComputer2Minutes">
-           <property name="text">
-            <string>минут</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="sbComputer2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="value">
-            <number>30</number>
-           </property>
-          </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <layout class="QGridLayout" name="glCheck">
+           <item row="0" column="3">
+            <widget class="QLabel" name="lblCheckSec">
+             <property name="text">
+              <string>секунд</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="sbCheckD">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>15</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="lblCheckPM">
+             <property name="text">
+              <string>±</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QSpinBox" name="sbCheckM">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>30</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="lblComputers">
-        <property name="text">
-         <string>Время обработки</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <spacer name="hspace12">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Minimum</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="lblOperators">
+      <item row="4" column="0" colspan="2">
+       <widget class="QLabel" name="lblAuthor">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(220, 220, 220);
+color: rgb(110, 110, 110);</string>
+        </property>
         <property name="text">
-         <string>Время обслуживания</string>
+         <string>Автор: Маслова Марина ИУ7-73Б</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
-       <spacer name="hspace23">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Minimum</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="2" rowspan="2">
-       <widget class="QGroupBox" name="gbOperator1">
+      <item row="2" column="1">
+       <widget class="QGroupBox" name="gbVIP">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -148,64 +102,21 @@
          </size>
         </property>
         <property name="title">
-         <string>Оператор 1</string>
+         <string>Процент VIP групп</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="sbOperator1M">
-           <property name="value">
-            <number>20</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="lblOperator1PM">
-           <property name="text">
-            <string>±</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QSpinBox" name="sbOperator1D">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QSpinBox" name="sbVIP">
            <property name="value">
             <number>5</number>
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="lblOperator1Minutes">
-           <property name="text">
-            <string>минут</string>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </item>
-      <item row="8" column="4">
-       <widget class="QGroupBox" name="gbProbability">
-        <property name="title">
-         <string>Вероятность отказа</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_9">
-         <item row="0" column="0">
-          <widget class="QDoubleSpinBox" name="dsbProbability">
-           <property name="decimals">
-            <number>3</number>
-           </property>
-           <property name="maximum">
-            <double>1.000000000000000</double>
-           </property>
-           <property name="singleStep">
-            <double>0.100000000000000</double>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="3" column="0" rowspan="2">
-       <widget class="QGroupBox" name="gbClients">
+      <item row="1" column="1">
+       <widget class="QGroupBox" name="gpAttendant">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -219,171 +130,74 @@
          </size>
         </property>
         <property name="title">
-         <string>Клиенты</string>
+         <string>Сдача в гардероб</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="3">
-          <widget class="QLabel" name="lblClientsMinutes">
-           <property name="text">
-            <string>минут</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QSpinBox" name="sbClientsD">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="value">
-            <number>2</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="sbClientsM">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="value">
-            <number>10</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="lblClientsPM">
-           <property name="text">
-            <string>±</string>
-           </property>
-          </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <layout class="QGridLayout" name="glAttendant">
+           <item row="0" column="3">
+            <widget class="QLabel" name="lblAttendantSec">
+             <property name="text">
+              <string>секунд</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="sbAttendantD">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>3</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="lblAttendantPM">
+             <property name="text">
+              <string>±</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QSpinBox" name="sbAttendantM">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>7</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="2" column="4" rowspan="2">
-       <widget class="QGroupBox" name="gbComputer1">
+      <item row="3" column="1">
+       <widget class="QGroupBox" name="gbResult">
         <property name="title">
-         <string>Компьютер 1</string>
+         <string>Время начала пропуска</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_5">
-         <item row="0" column="1">
-          <widget class="QLabel" name="lblComputer1Minutes">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="lblBefore">
            <property name="text">
-            <string>минут</string>
+            <string>За</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="sbComputer1">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="value">
-            <number>15</number>
-           </property>
-          </widget>
+         <item>
+          <widget class="QLCDNumber" name="lcdResult"/>
          </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="3" column="2" rowspan="2">
-       <widget class="QGroupBox" name="gbOperator2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>Оператор 2</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="1">
-          <widget class="QLabel" name="lblOperator2PM">
-           <property name="text">
-            <string>±</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="lblOperator2Minutes">
-           <property name="text">
-            <string>минут</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="sbOperator2M">
-           <property name="value">
-            <number>40</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QSpinBox" name="sbOperator2D">
-           <property name="value">
-            <number>10</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="5" column="2" rowspan="2">
-       <widget class="QGroupBox" name="gbOperator3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="title">
-         <string>Оператор 3</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
-          <widget class="QSpinBox" name="sbOperator3M">
-           <property name="value">
-            <number>40</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="lblOperator3PM">
-           <property name="text">
-            <string>±</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QSpinBox" name="sbOperator3D">
-           <property name="value">
-            <number>20</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="lblOperator3Minutes">
+         <item>
+          <widget class="QLabel" name="lblMinutes">
            <property name="text">
             <string>минут</string>
            </property>
@@ -392,20 +206,7 @@
         </layout>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lblClients">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Интервал прихода</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="2">
+      <item row="3" column="0">
        <widget class="QPushButton" name="btnRun">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -418,10 +219,10 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0">
-       <widget class="QGroupBox" name="gbNum">
+      <item row="0" column="0" rowspan="3">
+       <widget class="QGroupBox" name="gbTheatergoer">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -433,10 +234,119 @@
          </size>
         </property>
         <property name="title">
-         <string>Количество заявок</string>
+         <string>Зрители</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_7">
-         <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="lblThGoersTime">
+           <property name="text">
+            <string>Интервалы прихода</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="glThGoersTime">
+           <item row="0" column="3">
+            <widget class="QLabel" name="lblThGoersSec">
+             <property name="text">
+              <string>секунд   </string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="sbThGoersD">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>4</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="lblThGoersPM">
+             <property name="text">
+              <string>±</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QSpinBox" name="sbThGoersM">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>5</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblGroupSize">
+           <property name="text">
+            <string>Размер группы</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="glGroupSize">
+           <item row="0" column="2">
+            <widget class="QSpinBox" name="sbNumD">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>2</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="lblNumPM">
+             <property name="text">
+              <string>±</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QSpinBox" name="sbNumM">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="value">
+              <number>3</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLabel" name="lblNumMan">
+             <property name="text">
+              <string>человек</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="lblThGoersNum">
+           <property name="text">
+            <string>Всего зрителей</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QSpinBox" name="sbNum">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -448,79 +358,14 @@
             <number>1000</number>
            </property>
            <property name="value">
-            <number>300</number>
+            <number>600</number>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="7" column="2">
-       <spacer name="vspaceInOut">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>10</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
-    </item>
-    <item row="1" column="3">
-     <spacer name="hspaceRight">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>10</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="2" column="2">
-     <spacer name="vspaceButtom">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>10</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="3" column="1" colspan="2">
-     <widget class="QLabel" name="lblAuthor">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(220, 220, 220);
-color: rgb(110, 110, 110);</string>
-      </property>
-      <property name="text">
-       <string>Автор: Маслова Марина ИУ7-73Б</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

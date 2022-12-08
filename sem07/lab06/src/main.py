@@ -16,36 +16,24 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.ui.dsbProbability.setEnabled(False)
-
         self.ui.btnRun.clicked.connect(self.run)
 
-
     def run(self):
-        theatergoersM = 5
-        theatergoersD = 4
+        theatergoersM = self.ui.sbThGoersM.value()
+        theatergoersD = self.ui.sbThGoersD.value()
 
-        numM = 3
-        numD = 2
+        numM = self.ui.sbNumM.value()
+        numD = self.ui.sbNumD.value()
 
-        checkersM = 10
-        checkersD = 5
+        checkersM = self.ui.sbCheckM.value()
+        checkersD = self.ui.sbCheckD.value()
 
-        attendantM = 7
-        attendantD = 3
+        attendantM = self.ui.sbAttendantM.value()
+        attendantD = self.ui.sbAttendantD.value()
 
-        probabilityVIP = 0.05
+        probabilityVIP = self.ui.sbVIP.value() / 100
 
-        number = 600
-
-        #print("run")
-        #print(clientM, clientD)
-        #print(op1M, op1D)
-        #print(op2M, op2D)
-        #print(op3M, op3D)
-        #print(computer1M)
-        #print(computer2M)
-        #print(requestsNum)
+        number = self.ui.sbNum.value()
 
         generatorDistribution = Uniform(theatergoersM-theatergoersD
                                         , theatergoersM+theatergoersD)
@@ -84,7 +72,7 @@ class MainWindow(QtWidgets.QMainWindow):
         model = EventModel(generator, checkers, attendants, number)
         time = model.run()
 
-        print(time)
+        self.ui.lcdResult.display(time)
 
 
 def main():
