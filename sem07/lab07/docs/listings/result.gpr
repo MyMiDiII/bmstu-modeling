@@ -1,0 +1,23 @@
+           START TIME           END TIME  BLOCKS  FACILITIES  STORAGES
+                0.000           2921.559     8        1          0
+
+              NAME                       VALUE
+          REPEAT                          2.000
+          SERVICE                     10001.000
+          SERVICE_QUEUE               10000.000
+
+ LABEL              LOC  BLOCK TYPE     ENTRY COUNT CURRENT COUNT RETRY
+                    1    GENERATE          1000             0       0
+REPEAT              2    QUEUE             1311             0       0
+                    3    SEIZE             1311             0       0
+                    4    DEPART            1311             0       0
+                    5    ADVANCE           1311             0       0
+                    6    RELEASE           1311             0       0
+                    7    TRANSFER          1311             0       0
+                    8    TERMINATE         1000             0       0
+
+FACILITY ENTRIES  UTIL.   AVE. TIME AVAIL. OWNER PEND INTER RETRY DELAY
+ SERVICE   1311    0.448       0.999  1        0    0    0     0      0
+
+QUEUE        MAX CONT. ENTRY ENTRY(0) AVE.CONT. AVE.TIME   AVE.(-0) RETRY
+SERVICE_QUEUE  3    0   1311   1164     0.033      0.073      0.655   0
