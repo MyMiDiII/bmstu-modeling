@@ -1,0 +1,12 @@
+       GENERATE (UNIFORM(1,1,5)),,,1000
+repeat QUEUE service_queue
+
+       SEIZE service
+       DEPART service_queue
+       ADVANCE (NORMAL(1,1,0.1))
+       RELEASE service
+
+       TRANSFER 0.25,,repeat
+
+       TERMINATE 1
+       START 1000
