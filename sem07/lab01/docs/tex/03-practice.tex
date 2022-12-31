@@ -1,0 +1,65 @@
+\chapter{Практическая часть}
+
+\section{Текст программы}
+
+На листингах~\ref{lst:uniden}-\ref{lst:unidist} соответственно представлены
+реализации функции плотности распределения и функции распределения вероятностей
+случайной величины, распределенной по равномерному закону.
+
+{
+\captionsetup{format=hang,justification=raggedright,
+              singlelinecheck=off,width=16cm}
+\listingfile{python}{UniformDensity.py}{}{Реализация функции плотности
+равномерного распределения}{uniden}
+
+\listingfile{python}{UniformDistribution.py}{}{Реализация функции равномерного
+распределения}{unidist}
+}
+
+На листингах~\ref{lst:normden}-\ref{lst:normdist} соответственно представлены
+реализации функции плотности распределения и функции распределения вероятностей
+случайной величины, распределенной по нормальному закону.
+
+{
+\captionsetup{format=hang,justification=raggedright,
+              singlelinecheck=off,width=16cm}
+\listingfile{python}{NormalDensity.py}{}{Реализация функции плотности
+нормального распределения}{normden}
+
+\listingfile{python}{NormalDistribution.py}{}{Реализация функции нормального
+распределения}{normdist}
+}
+
+\section{Полученный результат}
+
+На рисунках~\ref{img:interfaceUniform}-\ref{img:interfaceNormal} представлены
+экраны графического интерфейса для построения графиков функций для равномерного
+и нормального распределений соответственно.
+
+\imgw{interfaceUniform}{h!}{17cm}{Экран для построения графиков для
+равномерного распределения}
+
+\imgw{interfaceNormal}{h!}{17cm}{Экран для построения графиков для
+нормального распределения}
+
+\clearpage
+На рисунках~\ref{img:uni01}-\ref{img:uni02} представлены построенные графики
+функций для равномерного распределения с различными значениями параметров.
+
+\onetwoimage{uniformDensity5}{uniformDistribution5}{Равномерное
+распределение при $a = -5$ и $b = 5$}{uni01}
+
+\onetwoimage{uniformDensity75}{uniformDistribution75}{Равномерное
+распределение при $a = -7.5$ и $b = -0.5$}{uni02}
+
+На рисунках~\ref{img:norm01}-\ref{img:norm03} представлены построенные графики
+функций для нормального распределения с различными значениями параметров.
+
+\onetwoimage{normalDensity01}{normalDistribution01}{Нормальное
+распределение при $m = 0$ и $\sigma = 1$}{norm01}
+
+\onetwoimage{normalDensity025}{normalDistribution025}{Нормальное
+распределение при $m = 0$ и $\sigma = 2.5$}{norm02}
+
+\onetwoimage{normalDensity251}{NormalDistribution251}{Нормальное
+распределение при $m = 2.5$ и $\sigma = 1$}{norm03}
